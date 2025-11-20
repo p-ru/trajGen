@@ -1,0 +1,64 @@
+# Autosave files
+*.asv
+*.m~
+*.autosave
+*.slx.r*
+*.mdl.r*
+
+
+# Derived content-obscured files
+*.p
+
+
+# Compiled MEX files
+*.mex*
+
+
+# Packaged app and toolbox files
+*.mlappinstall
+*.mltbx
+
+
+# Deployable archives
+*.ctf
+
+
+
+# Generated helpsearch folders
+helpsearch*/
+
+
+# Code generation folders
+slprj/
+sccprj/
+codegen/
+
+
+# Cache files
+*.slxc
+
+
+# Cloud based storage dotfile
+.MATLABDriveTag
+
+
+# buildtool cache folder
+.buildtool/
+
+
+
+# Catkin/ROS build artifacts
+.catkin_tools/
+.catkin_workspace
+build/
+devel/
+install/
+logs/
+.catkin/
+*.log
+
+
++bus_conv_fcns/
+resources/
+*_ert_rtw/
+*slx
