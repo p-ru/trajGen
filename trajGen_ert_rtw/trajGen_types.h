@@ -7,9 +7,9 @@
  *
  * Code generation for model "trajGen".
  *
- * Model version              : 1.20
+ * Model version              : 1.22
  * Simulink Coder version : 24.2 (R2024b) 21-Jun-2024
- * C++ source code generated on : Fri Nov 21 02:36:44 2025
+ * C++ source code generated on : Fri Nov 21 03:30:20 2025
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -22,12 +22,12 @@
 #define trajGen_types_h_
 #include "rtwtypes.h"
 #include "coder_array.h"
-#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_trajGen_std_msgs_Bool_
-#define DEFINED_TYPEDEF_FOR_SL_Bus_trajGen_std_msgs_Bool_
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_trajGen_std_msgs_Float64_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_trajGen_std_msgs_Float64_
 
-struct SL_Bus_trajGen_std_msgs_Bool
+struct SL_Bus_trajGen_std_msgs_Float64
 {
-  boolean_T Data;
+  real_T Data;
 };
 
 #endif
@@ -63,6 +63,16 @@ struct SL_Bus_trajGen_geometry_msgs_Point
   real_T X;
   real_T Y;
   real_T Z;
+};
+
+#endif
+
+#ifndef DEFINED_TYPEDEF_FOR_SL_Bus_trajGen_std_msgs_Bool_
+#define DEFINED_TYPEDEF_FOR_SL_Bus_trajGen_std_msgs_Bool_
+
+struct SL_Bus_trajGen_std_msgs_Bool
+{
+  boolean_T Data;
 };
 
 #endif

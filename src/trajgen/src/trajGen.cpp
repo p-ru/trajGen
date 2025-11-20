@@ -7,9 +7,9 @@
  *
  * Code generation for model "trajGen".
  *
- * Model version              : 1.20
+ * Model version              : 1.22
  * Simulink Coder version : 24.2 (R2024b) 21-Jun-2024
- * C++ source code generated on : Fri Nov 21 02:36:44 2025
+ * C++ source code generated on : Fri Nov 21 03:30:20 2025
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -302,13 +302,13 @@ static void trajGen_inv(const real_T x[16], real_T y[16])
     kAcol = 1;
 
     /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
-    trajGen_B.smax_b = std::abs(trajGen_B.c_A_g[jj]);
+    trajGen_B.smax_h = std::abs(trajGen_B.c_A_g[jj]);
     for (k = 2; k <= jBcol; k++) {
       real_T s;
       s = std::abs(trajGen_B.c_A_g[(c + k) - 3]);
-      if (s > trajGen_B.smax_b) {
+      if (s > trajGen_B.smax_h) {
         kAcol = k;
-        trajGen_B.smax_b = s;
+        trajGen_B.smax_h = s;
       }
     }
 
@@ -316,18 +316,18 @@ static void trajGen_inv(const real_T x[16], real_T y[16])
       if (kAcol - 1 != 0) {
         k = pipk + kAcol;
         b_ipiv[pipk] = static_cast<int8_T>(k);
-        trajGen_B.smax_b = trajGen_B.c_A_g[pipk];
+        trajGen_B.smax_h = trajGen_B.c_A_g[pipk];
         trajGen_B.c_A_g[pipk] = trajGen_B.c_A_g[k - 1];
-        trajGen_B.c_A_g[k - 1] = trajGen_B.smax_b;
-        trajGen_B.smax_b = trajGen_B.c_A_g[pipk + 4];
+        trajGen_B.c_A_g[k - 1] = trajGen_B.smax_h;
+        trajGen_B.smax_h = trajGen_B.c_A_g[pipk + 4];
         trajGen_B.c_A_g[pipk + 4] = trajGen_B.c_A_g[k + 3];
-        trajGen_B.c_A_g[k + 3] = trajGen_B.smax_b;
-        trajGen_B.smax_b = trajGen_B.c_A_g[pipk + 8];
+        trajGen_B.c_A_g[k + 3] = trajGen_B.smax_h;
+        trajGen_B.smax_h = trajGen_B.c_A_g[pipk + 8];
         trajGen_B.c_A_g[pipk + 8] = trajGen_B.c_A_g[k + 7];
-        trajGen_B.c_A_g[k + 7] = trajGen_B.smax_b;
-        trajGen_B.smax_b = trajGen_B.c_A_g[pipk + 12];
+        trajGen_B.c_A_g[k + 7] = trajGen_B.smax_h;
+        trajGen_B.smax_h = trajGen_B.c_A_g[pipk + 12];
         trajGen_B.c_A_g[pipk + 12] = trajGen_B.c_A_g[k + 11];
-        trajGen_B.c_A_g[k + 11] = trajGen_B.smax_b;
+        trajGen_B.c_A_g[k + 11] = trajGen_B.smax_h;
       }
 
       kAcol = c - pipk;
@@ -340,8 +340,8 @@ static void trajGen_inv(const real_T x[16], real_T y[16])
     kAcol = 3 - pipk;
     for (k = 0; k < kAcol; k++) {
       /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
-      trajGen_B.smax_b = trajGen_B.c_A_g[((k << 2) + jj) + 4];
-      if (trajGen_B.smax_b != 0.0) {
+      trajGen_B.smax_h = trajGen_B.c_A_g[((k << 2) + jj) + 4];
+      if (trajGen_B.smax_h != 0.0) {
         int32_T d;
 
         /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
@@ -350,7 +350,7 @@ static void trajGen_inv(const real_T x[16], real_T y[16])
         for (int32_T ijA{jBcol}; ijA <= d; ijA++) {
           /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
           trajGen_B.c_A_g[ijA - 1] += trajGen_B.c_A_g[((c + ijA) - jA) - 7] *
-            -trajGen_B.smax_b;
+            -trajGen_B.smax_h;
         }
       }
 
@@ -405,9 +405,9 @@ static void trajGen_inv(const real_T x[16], real_T y[16])
     for (k = 3; k >= 0; k--) {
       kAcol = k << 2;
       c = k + jBcol;
-      trajGen_B.smax_b = y[c];
-      if (trajGen_B.smax_b != 0.0) {
-        y[c] = trajGen_B.smax_b / trajGen_B.c_A_g[k + kAcol];
+      trajGen_B.smax_h = y[c];
+      if (trajGen_B.smax_h != 0.0) {
+        y[c] = trajGen_B.smax_h / trajGen_B.c_A_g[k + kAcol];
         for (jA = 0; jA < k; jA++) {
           jj = jA + jBcol;
           y[jj] -= trajGen_B.c_A_g[jA + kAcol] * y[c];
@@ -452,21 +452,21 @@ static real_T trajGen_xnrm2(int32_T n, const coder::array<real_T, 2U> &x,
       y = std::abs(x[ix0 - 1]);
     } else {
       int32_T kend;
-      trajGen_B.scale_b = 3.3121686421112381E-170;
+      trajGen_B.scale_n = 3.3121686421112381E-170;
       kend = ix0 + n;
       for (int32_T k{ix0}; k < kend; k++) {
-        trajGen_B.absxk_l = std::abs(x[k - 1]);
-        if (trajGen_B.absxk_l > trajGen_B.scale_b) {
-          trajGen_B.t_h = trajGen_B.scale_b / trajGen_B.absxk_l;
-          y = y * trajGen_B.t_h * trajGen_B.t_h + 1.0;
-          trajGen_B.scale_b = trajGen_B.absxk_l;
+        trajGen_B.absxk_b = std::abs(x[k - 1]);
+        if (trajGen_B.absxk_b > trajGen_B.scale_n) {
+          trajGen_B.t_l = trajGen_B.scale_n / trajGen_B.absxk_b;
+          y = y * trajGen_B.t_l * trajGen_B.t_l + 1.0;
+          trajGen_B.scale_n = trajGen_B.absxk_b;
         } else {
-          trajGen_B.t_h = trajGen_B.absxk_l / trajGen_B.scale_b;
-          y += trajGen_B.t_h * trajGen_B.t_h;
+          trajGen_B.t_l = trajGen_B.absxk_b / trajGen_B.scale_n;
+          y += trajGen_B.t_l * trajGen_B.t_l;
         }
       }
 
-      y = trajGen_B.scale_b * std::sqrt(y);
+      y = trajGen_B.scale_n * std::sqrt(y);
     }
   }
 
@@ -510,6 +510,7 @@ static void trajGen_xgeqp3(const coder::array<real_T, 2U> &A, coder::array<
   int32_T ma_tmp;
   int32_T minmana_tmp;
   int32_T na_tmp;
+  int32_T pvt;
   int32_T temp_tmp;
   boolean_T exitg2;
 
@@ -558,32 +559,32 @@ static void trajGen_xgeqp3(const coder::array<real_T, 2U> &A, coder::array<
       trajGen_B.vn1[loop_ub_tmp] = 0.0;
       trajGen_B.vn2[loop_ub_tmp] = 0.0;
       jA = loop_ub_tmp * ma_tmp;
-      trajGen_B.smax_n = 0.0;
+      trajGen_B.smax_b = 0.0;
       if (ma_tmp >= 1) {
         if (ma_tmp == 1) {
-          trajGen_B.smax_n = std::abs(A[jA]);
+          trajGen_B.smax_b = std::abs(A[jA]);
         } else {
-          trajGen_B.scale_l = 3.3121686421112381E-170;
+          trajGen_B.scale_d = 3.3121686421112381E-170;
           kend = jA + ma_tmp;
           for (itemp = jA + 1; itemp <= kend; itemp++) {
-            trajGen_B.absxk_o = std::abs(A[itemp - 1]);
-            if (trajGen_B.absxk_o > trajGen_B.scale_l) {
-              trajGen_B.t_b = trajGen_B.scale_l / trajGen_B.absxk_o;
-              trajGen_B.smax_n = trajGen_B.smax_n * trajGen_B.t_b *
-                trajGen_B.t_b + 1.0;
-              trajGen_B.scale_l = trajGen_B.absxk_o;
+            trajGen_B.absxk_l = std::abs(A[itemp - 1]);
+            if (trajGen_B.absxk_l > trajGen_B.scale_d) {
+              trajGen_B.t_o = trajGen_B.scale_d / trajGen_B.absxk_l;
+              trajGen_B.smax_b = trajGen_B.smax_b * trajGen_B.t_o *
+                trajGen_B.t_o + 1.0;
+              trajGen_B.scale_d = trajGen_B.absxk_l;
             } else {
-              trajGen_B.t_b = trajGen_B.absxk_o / trajGen_B.scale_l;
-              trajGen_B.smax_n += trajGen_B.t_b * trajGen_B.t_b;
+              trajGen_B.t_o = trajGen_B.absxk_l / trajGen_B.scale_d;
+              trajGen_B.smax_b += trajGen_B.t_o * trajGen_B.t_o;
             }
           }
 
-          trajGen_B.smax_n = trajGen_B.scale_l * std::sqrt(trajGen_B.smax_n);
+          trajGen_B.smax_b = trajGen_B.scale_d * std::sqrt(trajGen_B.smax_b);
         }
       }
 
-      trajGen_B.vn1[loop_ub_tmp] = trajGen_B.smax_n;
-      trajGen_B.vn2[loop_ub_tmp] = trajGen_B.smax_n;
+      trajGen_B.vn1[loop_ub_tmp] = trajGen_B.smax_b;
+      trajGen_B.vn2[loop_ub_tmp] = trajGen_B.smax_b;
     }
 
     for (loop_ub_tmp = 0; loop_ub_tmp < minmana_tmp; loop_ub_tmp++) {
@@ -592,123 +593,123 @@ static void trajGen_xgeqp3(const coder::array<real_T, 2U> &A, coder::array<
       trajGen_B.nmi = na_tmp - loop_ub_tmp;
       kend = (ma_tmp - loop_ub_tmp) - 1;
       if (trajGen_B.nmi < 1) {
-        trajGen_B.pvt = 0;
+        pvt = 0;
       } else {
-        trajGen_B.pvt = 1;
+        pvt = 1;
         if (trajGen_B.nmi > 1) {
-          trajGen_B.smax_n = std::abs(trajGen_B.vn1[loop_ub_tmp]);
+          trajGen_B.smax_b = std::abs(trajGen_B.vn1[loop_ub_tmp]);
           for (itemp = 2; itemp <= trajGen_B.nmi; itemp++) {
-            trajGen_B.scale_l = std::abs(trajGen_B.vn1[(loop_ub_tmp + itemp) - 1]);
-            if (trajGen_B.scale_l > trajGen_B.smax_n) {
-              trajGen_B.pvt = itemp;
-              trajGen_B.smax_n = trajGen_B.scale_l;
+            trajGen_B.scale_d = std::abs(trajGen_B.vn1[(loop_ub_tmp + itemp) - 1]);
+            if (trajGen_B.scale_d > trajGen_B.smax_b) {
+              pvt = itemp;
+              trajGen_B.smax_b = trajGen_B.scale_d;
             }
           }
         }
       }
 
-      trajGen_B.pvt = (loop_ub_tmp + trajGen_B.pvt) - 1;
-      if (trajGen_B.pvt + 1 != loop_ub_tmp + 1) {
-        ix = trajGen_B.pvt * ma_tmp;
+      pvt = (loop_ub_tmp + pvt) - 1;
+      if (pvt + 1 != loop_ub_tmp + 1) {
+        ix = pvt * ma_tmp;
         for (itemp = 0; itemp < ma_tmp; itemp++) {
           temp_tmp = ix + itemp;
-          trajGen_B.scale_l = b_A[temp_tmp];
+          trajGen_B.scale_d = b_A[temp_tmp];
           b_tmp = jA + itemp;
           b_A[temp_tmp] = b_A[b_tmp];
-          b_A[b_tmp] = trajGen_B.scale_l;
+          b_A[b_tmp] = trajGen_B.scale_d;
         }
 
-        itemp = jpvt[trajGen_B.pvt];
-        jpvt[trajGen_B.pvt] = jpvt[loop_ub_tmp];
+        itemp = jpvt[pvt];
+        jpvt[pvt] = jpvt[loop_ub_tmp];
         jpvt[loop_ub_tmp] = itemp;
-        trajGen_B.vn1[trajGen_B.pvt] = trajGen_B.vn1[loop_ub_tmp];
-        trajGen_B.vn2[trajGen_B.pvt] = trajGen_B.vn2[loop_ub_tmp];
+        trajGen_B.vn1[pvt] = trajGen_B.vn1[loop_ub_tmp];
+        trajGen_B.vn2[pvt] = trajGen_B.vn2[loop_ub_tmp];
       }
 
       if (loop_ub_tmp + 1 < ma_tmp) {
         jA = trajGen_B.ii + 2;
-        trajGen_B.smax_n = b_A[trajGen_B.ii];
+        trajGen_B.smax_b = b_A[trajGen_B.ii];
         tau[loop_ub_tmp] = 0.0;
         if (kend + 1 > 0) {
-          trajGen_B.scale_l = trajGen_xnrm2(kend, b_A, trajGen_B.ii + 2);
-          if (trajGen_B.scale_l != 0.0) {
-            trajGen_B.scale_l = trajGen_rt_hypotd_snf(b_A[trajGen_B.ii],
-              trajGen_B.scale_l);
+          trajGen_B.scale_d = trajGen_xnrm2(kend, b_A, trajGen_B.ii + 2);
+          if (trajGen_B.scale_d != 0.0) {
+            trajGen_B.scale_d = trajGen_rt_hypotd_snf(b_A[trajGen_B.ii],
+              trajGen_B.scale_d);
             if (b_A[trajGen_B.ii] >= 0.0) {
-              trajGen_B.scale_l = -trajGen_B.scale_l;
+              trajGen_B.scale_d = -trajGen_B.scale_d;
             }
 
-            if (std::abs(trajGen_B.scale_l) < 1.0020841800044864E-292) {
-              trajGen_B.pvt = -1;
+            if (std::abs(trajGen_B.scale_d) < 1.0020841800044864E-292) {
+              pvt = -1;
               do {
-                trajGen_B.pvt++;
+                pvt++;
                 b_tmp = (trajGen_B.ii + kend) + 1;
                 for (itemp = jA; itemp <= b_tmp; itemp++) {
                   b_A[itemp - 1] = b_A[itemp - 1] * 9.9792015476736E+291;
                 }
 
-                trajGen_B.scale_l *= 9.9792015476736E+291;
-                trajGen_B.smax_n *= 9.9792015476736E+291;
-              } while ((std::abs(trajGen_B.scale_l) < 1.0020841800044864E-292) &&
-                       (trajGen_B.pvt + 1 < 20));
+                trajGen_B.scale_d *= 9.9792015476736E+291;
+                trajGen_B.smax_b *= 9.9792015476736E+291;
+              } while ((std::abs(trajGen_B.scale_d) < 1.0020841800044864E-292) &&
+                       (pvt + 1 < 20));
 
-              trajGen_B.scale_l = trajGen_rt_hypotd_snf(trajGen_B.smax_n,
+              trajGen_B.scale_d = trajGen_rt_hypotd_snf(trajGen_B.smax_b,
                 trajGen_xnrm2(kend, b_A, trajGen_B.ii + 2));
-              if (trajGen_B.smax_n >= 0.0) {
-                trajGen_B.scale_l = -trajGen_B.scale_l;
+              if (trajGen_B.smax_b >= 0.0) {
+                trajGen_B.scale_d = -trajGen_B.scale_d;
               }
 
-              tau[loop_ub_tmp] = (trajGen_B.scale_l - trajGen_B.smax_n) /
-                trajGen_B.scale_l;
-              trajGen_B.smax_n = 1.0 / (trajGen_B.smax_n - trajGen_B.scale_l);
+              tau[loop_ub_tmp] = (trajGen_B.scale_d - trajGen_B.smax_b) /
+                trajGen_B.scale_d;
+              trajGen_B.smax_b = 1.0 / (trajGen_B.smax_b - trajGen_B.scale_d);
               for (itemp = jA; itemp <= b_tmp; itemp++) {
-                b_A[itemp - 1] = b_A[itemp - 1] * trajGen_B.smax_n;
+                b_A[itemp - 1] = b_A[itemp - 1] * trajGen_B.smax_b;
               }
 
-              for (itemp = 0; itemp <= trajGen_B.pvt; itemp++) {
-                trajGen_B.scale_l *= 1.0020841800044864E-292;
+              for (itemp = 0; itemp <= pvt; itemp++) {
+                trajGen_B.scale_d *= 1.0020841800044864E-292;
               }
 
-              trajGen_B.smax_n = trajGen_B.scale_l;
+              trajGen_B.smax_b = trajGen_B.scale_d;
             } else {
-              tau[loop_ub_tmp] = (trajGen_B.scale_l - b_A[trajGen_B.ii]) /
-                trajGen_B.scale_l;
-              trajGen_B.smax_n = 1.0 / (b_A[trajGen_B.ii] - trajGen_B.scale_l);
-              trajGen_B.pvt = (trajGen_B.ii + kend) + 1;
-              for (itemp = jA; itemp <= trajGen_B.pvt; itemp++) {
-                b_A[itemp - 1] = b_A[itemp - 1] * trajGen_B.smax_n;
+              tau[loop_ub_tmp] = (trajGen_B.scale_d - b_A[trajGen_B.ii]) /
+                trajGen_B.scale_d;
+              trajGen_B.smax_b = 1.0 / (b_A[trajGen_B.ii] - trajGen_B.scale_d);
+              pvt = (trajGen_B.ii + kend) + 1;
+              for (itemp = jA; itemp <= pvt; itemp++) {
+                b_A[itemp - 1] = b_A[itemp - 1] * trajGen_B.smax_b;
               }
 
-              trajGen_B.smax_n = trajGen_B.scale_l;
+              trajGen_B.smax_b = trajGen_B.scale_d;
             }
           }
         }
 
-        b_A[trajGen_B.ii] = trajGen_B.smax_n;
+        b_A[trajGen_B.ii] = trajGen_B.smax_b;
       } else {
         tau[loop_ub_tmp] = 0.0;
       }
 
       if (loop_ub_tmp + 1 < na_tmp) {
-        trajGen_B.smax_n = b_A[trajGen_B.ii];
+        trajGen_B.smax_b = b_A[trajGen_B.ii];
         b_A[trajGen_B.ii] = 1.0;
         jA = (trajGen_B.ii + ma_tmp) + 1;
         if (tau[loop_ub_tmp] != 0.0) {
           itemp = kend;
-          trajGen_B.pvt = trajGen_B.ii + kend;
-          while ((itemp + 1 > 0) && (b_A[trajGen_B.pvt] == 0.0)) {
+          pvt = trajGen_B.ii + kend;
+          while ((itemp + 1 > 0) && (b_A[pvt] == 0.0)) {
             itemp--;
-            trajGen_B.pvt--;
+            pvt--;
           }
 
           trajGen_B.nmi--;
           exitg2 = false;
           while ((!exitg2) && (trajGen_B.nmi > 0)) {
-            trajGen_B.pvt = (trajGen_B.nmi - 1) * ma_tmp + jA;
-            b_tmp = trajGen_B.pvt;
+            pvt = (trajGen_B.nmi - 1) * ma_tmp + jA;
+            b_tmp = pvt;
             do {
               exitg1 = 0;
-              if (b_tmp <= trajGen_B.pvt + itemp) {
+              if (b_tmp <= pvt + itemp) {
                 if (b_A[b_tmp - 1] != 0.0) {
                   exitg1 = 1;
                 } else {
@@ -733,37 +734,35 @@ static void trajGen_xgeqp3(const coder::array<real_T, 2U> &A, coder::array<
 
         if (itemp + 1 > 0) {
           if (trajGen_B.nmi + 1 != 0) {
-            for (trajGen_B.pvt = 0; trajGen_B.pvt <= trajGen_B.nmi;
-                 trajGen_B.pvt++) {
-              trajGen_B.work[trajGen_B.pvt] = 0.0;
+            for (pvt = 0; pvt <= trajGen_B.nmi; pvt++) {
+              trajGen_B.work[pvt] = 0.0;
             }
 
             ix = 0;
-            trajGen_B.pvt = ma_tmp * trajGen_B.nmi + jA;
-            for (temp_tmp = jA; ma_tmp < 0 ? temp_tmp >= trajGen_B.pvt :
-                 temp_tmp <= trajGen_B.pvt; temp_tmp += ma_tmp) {
-              trajGen_B.scale_l = 0.0;
+            pvt = ma_tmp * trajGen_B.nmi + jA;
+            for (temp_tmp = jA; ma_tmp < 0 ? temp_tmp >= pvt : temp_tmp <= pvt;
+                 temp_tmp += ma_tmp) {
+              trajGen_B.scale_d = 0.0;
               d = temp_tmp + itemp;
               for (b_tmp = temp_tmp; b_tmp <= d; b_tmp++) {
-                trajGen_B.scale_l += b_A[(trajGen_B.ii + b_tmp) - temp_tmp] *
+                trajGen_B.scale_d += b_A[(trajGen_B.ii + b_tmp) - temp_tmp] *
                   b_A[b_tmp - 1];
               }
 
-              trajGen_B.work[ix] = trajGen_B.work[ix] + trajGen_B.scale_l;
+              trajGen_B.work[ix] = trajGen_B.work[ix] + trajGen_B.scale_d;
               ix++;
             }
           }
 
           if (!(-tau[loop_ub_tmp] == 0.0)) {
-            for (trajGen_B.pvt = 0; trajGen_B.pvt <= trajGen_B.nmi;
-                 trajGen_B.pvt++) {
-              trajGen_B.scale_l = trajGen_B.work[trajGen_B.pvt];
-              if (trajGen_B.scale_l != 0.0) {
-                trajGen_B.scale_l *= -tau[loop_ub_tmp];
+            for (pvt = 0; pvt <= trajGen_B.nmi; pvt++) {
+              trajGen_B.scale_d = trajGen_B.work[pvt];
+              if (trajGen_B.scale_d != 0.0) {
+                trajGen_B.scale_d *= -tau[loop_ub_tmp];
                 b_tmp = itemp + jA;
                 for (ix = jA; ix <= b_tmp; ix++) {
                   b_A[ix - 1] = b_A[(trajGen_B.ii + ix) - jA] *
-                    trajGen_B.scale_l + b_A[ix - 1];
+                    trajGen_B.scale_d + b_A[ix - 1];
                 }
               }
 
@@ -772,35 +771,35 @@ static void trajGen_xgeqp3(const coder::array<real_T, 2U> &A, coder::array<
           }
         }
 
-        b_A[trajGen_B.ii] = trajGen_B.smax_n;
+        b_A[trajGen_B.ii] = trajGen_B.smax_b;
       }
 
       for (trajGen_B.ii = loop_ub_tmp + 2; trajGen_B.ii <= na_tmp; trajGen_B.ii
            ++) {
         trajGen_B.nmi = (trajGen_B.ii - 1) * ma_tmp + loop_ub_tmp;
-        trajGen_B.smax_n = trajGen_B.vn1[trajGen_B.ii - 1];
-        if (trajGen_B.smax_n != 0.0) {
-          trajGen_B.scale_l = std::abs(b_A[trajGen_B.nmi]) / trajGen_B.smax_n;
-          trajGen_B.scale_l = 1.0 - trajGen_B.scale_l * trajGen_B.scale_l;
-          if (trajGen_B.scale_l < 0.0) {
-            trajGen_B.scale_l = 0.0;
+        trajGen_B.smax_b = trajGen_B.vn1[trajGen_B.ii - 1];
+        if (trajGen_B.smax_b != 0.0) {
+          trajGen_B.scale_d = std::abs(b_A[trajGen_B.nmi]) / trajGen_B.smax_b;
+          trajGen_B.scale_d = 1.0 - trajGen_B.scale_d * trajGen_B.scale_d;
+          if (trajGen_B.scale_d < 0.0) {
+            trajGen_B.scale_d = 0.0;
           }
 
-          trajGen_B.absxk_o = trajGen_B.smax_n / trajGen_B.vn2[trajGen_B.ii - 1];
-          trajGen_B.absxk_o = trajGen_B.absxk_o * trajGen_B.absxk_o *
-            trajGen_B.scale_l;
-          if (trajGen_B.absxk_o <= 1.4901161193847656E-8) {
+          trajGen_B.absxk_l = trajGen_B.smax_b / trajGen_B.vn2[trajGen_B.ii - 1];
+          trajGen_B.absxk_l = trajGen_B.absxk_l * trajGen_B.absxk_l *
+            trajGen_B.scale_d;
+          if (trajGen_B.absxk_l <= 1.4901161193847656E-8) {
             if (loop_ub_tmp + 1 < ma_tmp) {
-              trajGen_B.smax_n = trajGen_xnrm2(kend, b_A, trajGen_B.nmi + 2);
-              trajGen_B.vn1[trajGen_B.ii - 1] = trajGen_B.smax_n;
-              trajGen_B.vn2[trajGen_B.ii - 1] = trajGen_B.smax_n;
+              trajGen_B.smax_b = trajGen_xnrm2(kend, b_A, trajGen_B.nmi + 2);
+              trajGen_B.vn1[trajGen_B.ii - 1] = trajGen_B.smax_b;
+              trajGen_B.vn2[trajGen_B.ii - 1] = trajGen_B.smax_b;
             } else {
               trajGen_B.vn1[trajGen_B.ii - 1] = 0.0;
               trajGen_B.vn2[trajGen_B.ii - 1] = 0.0;
             }
           } else {
-            trajGen_B.vn1[trajGen_B.ii - 1] = trajGen_B.smax_n * std::sqrt
-              (trajGen_B.scale_l);
+            trajGen_B.vn1[trajGen_B.ii - 1] = trajGen_B.smax_b * std::sqrt
+              (trajGen_B.scale_d);
           }
         }
       }
@@ -888,13 +887,13 @@ static void trajGen_xzgetrf(int32_T m, int32_T n, coder::array<real_T, 2U> &A,
       } else {
         a = 1;
         if (mmj > 1) {
-          trajGen_B.smax_d = std::abs(A[c_tmp]);
+          trajGen_B.smax_bn = std::abs(A[c_tmp]);
           for (k = 2; k <= mmj; k++) {
             real_T s;
             s = std::abs(A[(c_tmp + k) - 1]);
-            if (s > trajGen_B.smax_d) {
+            if (s > trajGen_B.smax_bn) {
               a = k;
-              trajGen_B.smax_d = s;
+              trajGen_B.smax_bn = s;
             }
           }
         }
@@ -907,10 +906,10 @@ static void trajGen_xzgetrf(int32_T m, int32_T n, coder::array<real_T, 2U> &A,
           for (k = 0; k < n; k++) {
             temp_tmp = k * lda;
             temp_tmp_0 = temp_tmp + n_0;
-            trajGen_B.smax_d = A[temp_tmp_0];
+            trajGen_B.smax_bn = A[temp_tmp_0];
             temp_tmp = (temp_tmp + a) - 1;
             A[temp_tmp_0] = A[temp_tmp];
-            A[temp_tmp] = trajGen_B.smax_d;
+            A[temp_tmp] = trajGen_B.smax_bn;
           }
         }
 
@@ -926,14 +925,14 @@ static void trajGen_xzgetrf(int32_T m, int32_T n, coder::array<real_T, 2U> &A,
       temp_tmp = (c_tmp + lda) + 1;
       jA = temp_tmp;
       for (a = 0; a <= c; a++) {
-        trajGen_B.smax_d = A[(a * lda + temp_tmp) - 1];
-        if (trajGen_B.smax_d != 0.0) {
+        trajGen_B.smax_bn = A[(a * lda + temp_tmp) - 1];
+        if (trajGen_B.smax_bn != 0.0) {
           int32_T b;
           b = jA + 1;
           k = (mmj + jA) - 1;
           for (temp_tmp_0 = b; temp_tmp_0 <= k; temp_tmp_0++) {
-            A[temp_tmp_0 - 1] = A[(c_tmp + temp_tmp_0) - jA] * -trajGen_B.smax_d
-              + A[temp_tmp_0 - 1];
+            A[temp_tmp_0 - 1] = A[(c_tmp + temp_tmp_0) - jA] *
+              -trajGen_B.smax_bn + A[temp_tmp_0 - 1];
           }
         }
 
@@ -1164,6 +1163,7 @@ static void trajGen_xzgetrf_p(real_T A[64], int32_T ipiv[8], int32_T *info)
 
 static void trajGen_mldivide_pv(const real_T A[64], real_T B[8])
 {
+  real_T temp;
   int32_T b_info;
   int32_T i;
   int32_T kAcol;
@@ -1175,9 +1175,9 @@ static void trajGen_mldivide_pv(const real_T A[64], real_T B[8])
     /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
     kAcol = trajGen_B.b_ipiv[b_info];
     if (b_info + 1 != kAcol) {
-      trajGen_B.temp_d = B[b_info];
+      temp = B[b_info];
       B[b_info] = B[kAcol - 1];
-      B[kAcol - 1] = trajGen_B.temp_d;
+      B[kAcol - 1] = temp;
     }
   }
 
@@ -1194,9 +1194,9 @@ static void trajGen_mldivide_pv(const real_T A[64], real_T B[8])
   /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
   for (i = 7; i >= 0; i--) {
     kAcol = i << 3;
-    trajGen_B.temp_d = B[i];
-    if (trajGen_B.temp_d != 0.0) {
-      B[i] = trajGen_B.temp_d / trajGen_B.c_A_b[i + kAcol];
+    temp = B[i];
+    if (temp != 0.0) {
+      B[i] = temp / trajGen_B.c_A_b[i + kAcol];
       for (b_info = 0; b_info < i; b_info++) {
         B[b_info] -= trajGen_B.c_A_b[b_info + kAcol] * B[i];
       }
@@ -1492,9 +1492,9 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
     trajGen_B.waypoints[8] = trajGen_B.waypoints_g[trajGen_B.waypoints_tmp + 4];
     d_0 = static_cast<int8_T>(trajGen_B.c - trajGen_B.e);
     d[0] = d_0;
-    trajGen_B.loop_ub_e = d_0;
+    trajGen_B.loop_ub_d = d_0;
     for (trajGen_B.c = 0; trajGen_B.c < 3; trajGen_B.c++) {
-      for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm < trajGen_B.loop_ub_e;
+      for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm < trajGen_B.loop_ub_d;
            trajGen_B.powerTerm++) {
         /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
         trajGen_B.constraints[(trajGen_B.e + trajGen_B.powerTerm) + (trajGen_B.c
@@ -1516,23 +1516,23 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
     trajGen_B.nz = trajGen_B.x_tmp[0];
 
     /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
-    for (trajGen_B.loop_ub_e = 0; trajGen_B.loop_ub_e < 7; trajGen_B.loop_ub_e++)
+    for (trajGen_B.loop_ub_d = 0; trajGen_B.loop_ub_d < 7; trajGen_B.loop_ub_d++)
     {
-      trajGen_B.nz += trajGen_B.x_tmp[trajGen_B.loop_ub_e + 1];
+      trajGen_B.nz += trajGen_B.x_tmp[trajGen_B.loop_ub_d + 1];
     }
 
     trajGen_B.prod = 1.0;
     std::memset(&trajGen_B.Q[0], 0, sizeof(real_T) << 6U);
     std::memset(&trajGen_B.Qsum[0], 0, sizeof(real_T) << 6U);
-    for (trajGen_B.loop_ub_e = 0; trajGen_B.loop_ub_e < 8; trajGen_B.loop_ub_e++)
+    for (trajGen_B.loop_ub_d = 0; trajGen_B.loop_ub_d < 8; trajGen_B.loop_ub_d++)
     {
-      trajGen_B.e = 8 - trajGen_B.loop_ub_e;
+      trajGen_B.e = 8 - trajGen_B.loop_ub_d;
       for (trajGen_B.b = 0; trajGen_B.b < trajGen_B.e; trajGen_B.b++) {
-        trajGen_B.row = trajGen_B.loop_ub_e + trajGen_B.b;
+        trajGen_B.row = trajGen_B.loop_ub_d + trajGen_B.b;
         for (trajGen_B.c = 0; trajGen_B.c < trajGen_B.e; trajGen_B.c++) {
-          trajGen_B.col = trajGen_B.loop_ub_e + trajGen_B.c;
+          trajGen_B.col = trajGen_B.loop_ub_d + trajGen_B.c;
           for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm <
-               trajGen_B.loop_ub_e; trajGen_B.powerTerm++) {
+               trajGen_B.loop_ub_d; trajGen_B.powerTerm++) {
             /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
             trajGen_B.prod = static_cast<real_T>(trajGen_B.row -
               trajGen_B.powerTerm) * trajGen_B.prod * static_cast<real_T>
@@ -1540,7 +1540,7 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
           }
 
           trajGen_B.powerTerm = ((trajGen_B.row + trajGen_B.col) -
-            (trajGen_B.loop_ub_e << 1)) + 1;
+            (trajGen_B.loop_ub_d << 1)) + 1;
 
           /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
           trajGen_B.Q[trajGen_B.row + (trajGen_B.col << 3)] = trajGen_B.prod *
@@ -1551,7 +1551,7 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
       }
 
       /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
-      trajGen_B.c = tmp[trajGen_B.loop_ub_e];
+      trajGen_B.c = tmp[trajGen_B.loop_ub_d];
       for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm < 64;
            trajGen_B.powerTerm++) {
         /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
@@ -1579,10 +1579,10 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
         trajGen_B.prod = 1.0;
 
         /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
-        for (trajGen_B.loop_ub_e = 0; trajGen_B.loop_ub_e < trajGen_B.b;
-             trajGen_B.loop_ub_e++) {
+        for (trajGen_B.loop_ub_d = 0; trajGen_B.loop_ub_d < trajGen_B.b;
+             trajGen_B.loop_ub_d++) {
           trajGen_B.prod *= static_cast<real_T>(trajGen_B.c -
-            trajGen_B.loop_ub_e);
+            trajGen_B.loop_ub_d);
         }
 
         trajGen_B.AT[trajGen_B.b + (trajGen_B.c << 2)] = rt_powd_snf
@@ -1592,21 +1592,21 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
     }
 
     for (trajGen_B.c = 0; trajGen_B.c < 8; trajGen_B.c++) {
-      trajGen_B.loop_ub_e = trajGen_B.c << 2;
+      trajGen_B.loop_ub_d = trajGen_B.c << 2;
       trajGen_B.powerTerm = trajGen_B.c << 3;
-      trajGen_B.Q[trajGen_B.powerTerm] = trajGen_B.A0[trajGen_B.loop_ub_e];
-      trajGen_B.Q[trajGen_B.powerTerm + 4] = trajGen_B.AT[trajGen_B.loop_ub_e];
-      trajGen_B.Q[trajGen_B.powerTerm + 1] = trajGen_B.A0[trajGen_B.loop_ub_e +
+      trajGen_B.Q[trajGen_B.powerTerm] = trajGen_B.A0[trajGen_B.loop_ub_d];
+      trajGen_B.Q[trajGen_B.powerTerm + 4] = trajGen_B.AT[trajGen_B.loop_ub_d];
+      trajGen_B.Q[trajGen_B.powerTerm + 1] = trajGen_B.A0[trajGen_B.loop_ub_d +
         1];
-      trajGen_B.Q[trajGen_B.powerTerm + 5] = trajGen_B.AT[trajGen_B.loop_ub_e +
+      trajGen_B.Q[trajGen_B.powerTerm + 5] = trajGen_B.AT[trajGen_B.loop_ub_d +
         1];
-      trajGen_B.Q[trajGen_B.powerTerm + 2] = trajGen_B.A0[trajGen_B.loop_ub_e +
+      trajGen_B.Q[trajGen_B.powerTerm + 2] = trajGen_B.A0[trajGen_B.loop_ub_d +
         2];
-      trajGen_B.Q[trajGen_B.powerTerm + 6] = trajGen_B.AT[trajGen_B.loop_ub_e +
+      trajGen_B.Q[trajGen_B.powerTerm + 6] = trajGen_B.AT[trajGen_B.loop_ub_d +
         2];
-      trajGen_B.Q[trajGen_B.powerTerm + 3] = trajGen_B.A0[trajGen_B.loop_ub_e +
+      trajGen_B.Q[trajGen_B.powerTerm + 3] = trajGen_B.A0[trajGen_B.loop_ub_d +
         3];
-      trajGen_B.Q[trajGen_B.powerTerm + 7] = trajGen_B.AT[trajGen_B.loop_ub_e +
+      trajGen_B.Q[trajGen_B.powerTerm + 7] = trajGen_B.AT[trajGen_B.loop_ub_d +
         3];
     }
 
@@ -1615,32 +1615,32 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
     trajGen_constructM(&trajGen_B.constraints[trajGen_B.b], trajGen_B.M);
     for (trajGen_B.c = 0; trajGen_B.c < 4; trajGen_B.c++) {
       /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
-      trajGen_B.loop_ub_e = trajGen_B.c << 3;
+      trajGen_B.loop_ub_d = trajGen_B.c << 3;
       trajGen_B.powerTerm = trajGen_B.c << 2;
 
       /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
-      trajGen_B.Q_p[trajGen_B.powerTerm] = trajGen_B.Q[trajGen_B.loop_ub_e];
-      trajGen_B.Q_p[trajGen_B.powerTerm + 1] = trajGen_B.Q[trajGen_B.loop_ub_e +
+      trajGen_B.Q_p[trajGen_B.powerTerm] = trajGen_B.Q[trajGen_B.loop_ub_d];
+      trajGen_B.Q_p[trajGen_B.powerTerm + 1] = trajGen_B.Q[trajGen_B.loop_ub_d +
         1];
-      trajGen_B.Q_p[trajGen_B.powerTerm + 2] = trajGen_B.Q[trajGen_B.loop_ub_e +
+      trajGen_B.Q_p[trajGen_B.powerTerm + 2] = trajGen_B.Q[trajGen_B.loop_ub_d +
         2];
-      trajGen_B.Q_p[trajGen_B.powerTerm + 3] = trajGen_B.Q[trajGen_B.loop_ub_e +
+      trajGen_B.Q_p[trajGen_B.powerTerm + 3] = trajGen_B.Q[trajGen_B.loop_ub_d +
         3];
     }
 
     trajGen_inv(trajGen_B.Q_p, trajGen_B.upperleft);
     for (trajGen_B.c = 0; trajGen_B.c < 4; trajGen_B.c++) {
       /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
-      trajGen_B.loop_ub_e = (trajGen_B.c + 4) << 3;
+      trajGen_B.loop_ub_d = (trajGen_B.c + 4) << 3;
       trajGen_B.powerTerm = trajGen_B.c << 2;
 
       /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
-      trajGen_B.Q_p[trajGen_B.powerTerm] = trajGen_B.Q[trajGen_B.loop_ub_e + 4];
-      trajGen_B.Q_p[trajGen_B.powerTerm + 1] = trajGen_B.Q[trajGen_B.loop_ub_e +
+      trajGen_B.Q_p[trajGen_B.powerTerm] = trajGen_B.Q[trajGen_B.loop_ub_d + 4];
+      trajGen_B.Q_p[trajGen_B.powerTerm + 1] = trajGen_B.Q[trajGen_B.loop_ub_d +
         5];
-      trajGen_B.Q_p[trajGen_B.powerTerm + 2] = trajGen_B.Q[trajGen_B.loop_ub_e +
+      trajGen_B.Q_p[trajGen_B.powerTerm + 2] = trajGen_B.Q[trajGen_B.loop_ub_d +
         6];
-      trajGen_B.Q_p[trajGen_B.powerTerm + 3] = trajGen_B.Q[trajGen_B.loop_ub_e +
+      trajGen_B.Q_p[trajGen_B.powerTerm + 3] = trajGen_B.Q[trajGen_B.loop_ub_d +
         7];
     }
 
@@ -1658,12 +1658,12 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
       trajGen_B.lowerright_l = trajGen_B.Q_p[trajGen_B.c + 12];
       for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm < 4; trajGen_B.powerTerm
            ++) {
-        trajGen_B.loop_ub_e = trajGen_B.powerTerm << 3;
+        trajGen_B.loop_ub_d = trajGen_B.powerTerm << 3;
         trajGen_B.lowerright_c[trajGen_B.c + (trajGen_B.powerTerm << 2)] =
-          ((trajGen_B.Q[trajGen_B.loop_ub_e + 4] * trajGen_B.prod +
-            trajGen_B.Q[trajGen_B.loop_ub_e + 5] * trajGen_B.lowerright_d) +
-           trajGen_B.Q[trajGen_B.loop_ub_e + 6] * trajGen_B.lowerright_g) +
-          trajGen_B.Q[trajGen_B.loop_ub_e + 7] * trajGen_B.lowerright_l;
+          ((trajGen_B.Q[trajGen_B.loop_ub_d + 4] * trajGen_B.prod +
+            trajGen_B.Q[trajGen_B.loop_ub_d + 5] * trajGen_B.lowerright_d) +
+           trajGen_B.Q[trajGen_B.loop_ub_d + 6] * trajGen_B.lowerright_g) +
+          trajGen_B.Q[trajGen_B.loop_ub_d + 7] * trajGen_B.lowerright_l;
       }
 
       trajGen_B.prod = trajGen_B.lowerright_c[trajGen_B.c + 4];
@@ -1672,12 +1672,12 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
       trajGen_B.lowerright_l = trajGen_B.lowerright_c[trajGen_B.c + 12];
       for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm < 4; trajGen_B.powerTerm
            ++) {
-        trajGen_B.loop_ub_e = trajGen_B.powerTerm << 2;
-        trajGen_B.lowerright_f[trajGen_B.c + trajGen_B.loop_ub_e] =
-          ((trajGen_B.upperleft[trajGen_B.loop_ub_e + 1] * trajGen_B.prod +
-            trajGen_B.upperleft[trajGen_B.loop_ub_e] * trajGen_B.lowerright_d) +
-           trajGen_B.upperleft[trajGen_B.loop_ub_e + 2] * trajGen_B.lowerright_g)
-          + trajGen_B.upperleft[trajGen_B.loop_ub_e + 3] *
+        trajGen_B.loop_ub_d = trajGen_B.powerTerm << 2;
+        trajGen_B.lowerright_f[trajGen_B.c + trajGen_B.loop_ub_d] =
+          ((trajGen_B.upperleft[trajGen_B.loop_ub_d + 1] * trajGen_B.prod +
+            trajGen_B.upperleft[trajGen_B.loop_ub_d] * trajGen_B.lowerright_d) +
+           trajGen_B.upperleft[trajGen_B.loop_ub_d + 2] * trajGen_B.lowerright_g)
+          + trajGen_B.upperleft[trajGen_B.loop_ub_d + 3] *
           trajGen_B.lowerright_l;
         trajGen_B.AInv[trajGen_B.powerTerm + (trajGen_B.c << 3)] =
           trajGen_B.upperleft[(trajGen_B.c << 2) + trajGen_B.powerTerm];
@@ -1686,23 +1686,23 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
     }
 
     for (trajGen_B.c = 0; trajGen_B.c < 4; trajGen_B.c++) {
-      trajGen_B.loop_ub_e = trajGen_B.c << 2;
+      trajGen_B.loop_ub_d = trajGen_B.c << 2;
       trajGen_B.powerTerm = trajGen_B.c << 3;
       trajGen_B.AInv[trajGen_B.powerTerm + 4] =
-        trajGen_B.lowerright_f[trajGen_B.loop_ub_e];
+        trajGen_B.lowerright_f[trajGen_B.loop_ub_d];
       trajGen_B.e = (trajGen_B.c + 4) << 3;
-      trajGen_B.AInv[trajGen_B.e + 4] = trajGen_B.lowerright[trajGen_B.loop_ub_e];
+      trajGen_B.AInv[trajGen_B.e + 4] = trajGen_B.lowerright[trajGen_B.loop_ub_d];
       trajGen_B.AInv[trajGen_B.powerTerm + 5] =
-        trajGen_B.lowerright_f[trajGen_B.loop_ub_e + 1];
-      trajGen_B.AInv[trajGen_B.e + 5] = trajGen_B.lowerright[trajGen_B.loop_ub_e
+        trajGen_B.lowerright_f[trajGen_B.loop_ub_d + 1];
+      trajGen_B.AInv[trajGen_B.e + 5] = trajGen_B.lowerright[trajGen_B.loop_ub_d
         + 1];
       trajGen_B.AInv[trajGen_B.powerTerm + 6] =
-        trajGen_B.lowerright_f[trajGen_B.loop_ub_e + 2];
-      trajGen_B.AInv[trajGen_B.e + 6] = trajGen_B.lowerright[trajGen_B.loop_ub_e
+        trajGen_B.lowerright_f[trajGen_B.loop_ub_d + 2];
+      trajGen_B.AInv[trajGen_B.e + 6] = trajGen_B.lowerright[trajGen_B.loop_ub_d
         + 2];
       trajGen_B.AInv[trajGen_B.powerTerm + 7] =
-        trajGen_B.lowerright_f[trajGen_B.loop_ub_e + 3];
-      trajGen_B.AInv[trajGen_B.e + 7] = trajGen_B.lowerright[trajGen_B.loop_ub_e
+        trajGen_B.lowerright_f[trajGen_B.loop_ub_d + 3];
+      trajGen_B.AInv[trajGen_B.e + 7] = trajGen_B.lowerright[trajGen_B.loop_ub_d
         + 3];
     }
 
@@ -1716,10 +1716,10 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
         trajGen_B.R_tmp[trajGen_B.powerTerm + trajGen_B.e] =
           trajGen_B.M[trajGen_B.col];
         trajGen_B.prod = 0.0;
-        for (trajGen_B.loop_ub_e = 0; trajGen_B.loop_ub_e < 8;
-             trajGen_B.loop_ub_e++) {
-          trajGen_B.prod += trajGen_B.AInv[trajGen_B.e + trajGen_B.loop_ub_e] *
-            trajGen_B.Qsum[trajGen_B.row + trajGen_B.loop_ub_e];
+        for (trajGen_B.loop_ub_d = 0; trajGen_B.loop_ub_d < 8;
+             trajGen_B.loop_ub_d++) {
+          trajGen_B.prod += trajGen_B.AInv[trajGen_B.e + trajGen_B.loop_ub_d] *
+            trajGen_B.Qsum[trajGen_B.row + trajGen_B.loop_ub_d];
         }
 
         trajGen_B.AInv_k[trajGen_B.col] = trajGen_B.prod;
@@ -1728,11 +1728,11 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
       for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm < 8; trajGen_B.powerTerm
            ++) {
         trajGen_B.prod = 0.0;
-        for (trajGen_B.loop_ub_e = 0; trajGen_B.loop_ub_e < 8;
-             trajGen_B.loop_ub_e++) {
-          trajGen_B.prod += trajGen_B.AInv_k[(trajGen_B.loop_ub_e << 3) +
+        for (trajGen_B.loop_ub_d = 0; trajGen_B.loop_ub_d < 8;
+             trajGen_B.loop_ub_d++) {
+          trajGen_B.prod += trajGen_B.AInv_k[(trajGen_B.loop_ub_d << 3) +
             trajGen_B.c] * trajGen_B.AInv[(trajGen_B.powerTerm << 3) +
-            trajGen_B.loop_ub_e];
+            trajGen_B.loop_ub_d];
         }
 
         trajGen_B.AInv_c[trajGen_B.c + (trajGen_B.powerTerm << 3)] =
@@ -1744,10 +1744,10 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
       for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm < 8; trajGen_B.powerTerm
            ++) {
         trajGen_B.prod = 0.0;
-        for (trajGen_B.loop_ub_e = 0; trajGen_B.loop_ub_e < 8;
-             trajGen_B.loop_ub_e++) {
-          trajGen_B.prod += trajGen_B.M[(trajGen_B.loop_ub_e << 3) + trajGen_B.c]
-            * trajGen_B.AInv_c[(trajGen_B.powerTerm << 3) + trajGen_B.loop_ub_e];
+        for (trajGen_B.loop_ub_d = 0; trajGen_B.loop_ub_d < 8;
+             trajGen_B.loop_ub_d++) {
+          trajGen_B.prod += trajGen_B.M[(trajGen_B.loop_ub_d << 3) + trajGen_B.c]
+            * trajGen_B.AInv_c[(trajGen_B.powerTerm << 3) + trajGen_B.loop_ub_d];
         }
 
         trajGen_B.AInv[trajGen_B.c + (trajGen_B.powerTerm << 3)] =
@@ -1757,11 +1757,11 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
       for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm < 8; trajGen_B.powerTerm
            ++) {
         trajGen_B.prod = 0.0;
-        for (trajGen_B.loop_ub_e = 0; trajGen_B.loop_ub_e < 8;
-             trajGen_B.loop_ub_e++) {
-          trajGen_B.prod += trajGen_B.AInv[(trajGen_B.loop_ub_e << 3) +
+        for (trajGen_B.loop_ub_d = 0; trajGen_B.loop_ub_d < 8;
+             trajGen_B.loop_ub_d++) {
+          trajGen_B.prod += trajGen_B.AInv[(trajGen_B.loop_ub_d << 3) +
             trajGen_B.c] * trajGen_B.R_tmp[(trajGen_B.powerTerm << 3) +
-            trajGen_B.loop_ub_e];
+            trajGen_B.loop_ub_d];
         }
 
         trajGen_B.Qsum[trajGen_B.c + (trajGen_B.powerTerm << 3)] =
@@ -1773,12 +1773,12 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
       trajGen_B.e = 0;
       trajGen_B.row = 0;
       trajGen_B.col = 0;
-      trajGen_B.loop_ub_e = -1;
+      trajGen_B.loop_ub_d = -1;
     } else {
       trajGen_B.e = trajGen_B.nz;
       trajGen_B.row = trajGen_B.nz;
       trajGen_B.col = trajGen_B.nz;
-      trajGen_B.loop_ub_e = 7;
+      trajGen_B.loop_ub_d = 7;
     }
 
     trajGen_B.powerTerm = 0;
@@ -1804,9 +1804,9 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
     }
 
     trajGen_B.R_size[0] = trajGen_B.nz;
-    trajGen_B.loop_ub_e -= trajGen_B.col;
-    trajGen_B.R_size[1] = trajGen_B.loop_ub_e + 1;
-    for (trajGen_B.c = 0; trajGen_B.c <= trajGen_B.loop_ub_e; trajGen_B.c++) {
+    trajGen_B.loop_ub_d -= trajGen_B.col;
+    trajGen_B.R_size[1] = trajGen_B.loop_ub_d + 1;
+    for (trajGen_B.c = 0; trajGen_B.c <= trajGen_B.loop_ub_d; trajGen_B.c++) {
       for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm < trajGen_B.nz;
            trajGen_B.powerTerm++) {
         trajGen_B.M[trajGen_B.powerTerm + trajGen_B.nz * trajGen_B.c] =
@@ -1823,13 +1823,13 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
     }
 
     /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
-    trajGen_B.R_size_j[0] = trajGen_B.loop_ub_e + 1;
-    trajGen_B.R_size_j[1] = trajGen_B.loop_ub_e + 1;
-    for (trajGen_B.c = 0; trajGen_B.c <= trajGen_B.loop_ub_e; trajGen_B.c++) {
-      for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm <= trajGen_B.loop_ub_e;
+    trajGen_B.R_size_j[0] = trajGen_B.loop_ub_d + 1;
+    trajGen_B.R_size_j[1] = trajGen_B.loop_ub_d + 1;
+    for (trajGen_B.c = 0; trajGen_B.c <= trajGen_B.loop_ub_d; trajGen_B.c++) {
+      for (trajGen_B.powerTerm = 0; trajGen_B.powerTerm <= trajGen_B.loop_ub_d;
            trajGen_B.powerTerm++) {
         /* Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
-        trajGen_B.AInv[trajGen_B.powerTerm + (trajGen_B.loop_ub_e + 1) *
+        trajGen_B.AInv[trajGen_B.powerTerm + (trajGen_B.loop_ub_d + 1) *
           trajGen_B.c] = -trajGen_B.Qsum[(((trajGen_B.row + trajGen_B.c) << 3) +
           trajGen_B.e) + trajGen_B.powerTerm];
       }
@@ -1851,8 +1851,8 @@ static void MinJerkPolyTraj_computePPandTim(shared_uav_rst_sluav_internal_T *obj
         trajGen_B.tmp_data_l[trajGen_B.c]];
     }
 
-    trajGen_B.loop_ub_e = trajGen_B.r1.size(0);
-    for (trajGen_B.c = 0; trajGen_B.c < trajGen_B.loop_ub_e; trajGen_B.c++) {
+    trajGen_B.loop_ub_d = trajGen_B.r1.size(0);
+    for (trajGen_B.c = 0; trajGen_B.c < trajGen_B.loop_ub_d; trajGen_B.c++) {
       trajGen_B.upperleft[trajGen_B.c + trajGen_B.tmp_size_idx_0] =
         trajGen_B.r1[trajGen_B.c];
     }
@@ -1909,13 +1909,12 @@ static void trajGen_binary_expand_op(real_T in1[2], const
 /* Model step function */
 void trajGen_step(void)
 {
-  SL_Bus_trajGen_std_msgs_Bool rtb_BusAssignment2;
   SL_Bus_trajGen_std_msgs_Bool rtb_SourceBlock_o2_i_0;
+  boolean_T b_varargout_1;
   boolean_T exitg1;
   boolean_T guard1;
   boolean_T p;
   boolean_T p_0;
-  boolean_T rtb_Compare_m;
   boolean_T rtb_FixPtRelationalOperator;
 
   /* BusAssignment: '<Root>/Bus Assignment' */
@@ -1924,13 +1923,13 @@ void trajGen_step(void)
 
   /* Outputs for Atomic SubSystem: '<Root>/Subscribe1' */
   /* MATLABSystem: '<S6>/SourceBlock' */
-  rtb_Compare_m = Sub_trajGen_322.getLatestMessage(&rtb_SourceBlock_o2_i_0);
+  b_varargout_1 = Sub_trajGen_322.getLatestMessage(&rtb_SourceBlock_o2_i_0);
 
   /* Outputs for Enabled SubSystem: '<S6>/Enabled Subsystem' incorporates:
    *  EnablePort: '<S12>/Enable'
    */
   /* Start for MATLABSystem: '<S6>/SourceBlock' */
-  if (rtb_Compare_m) {
+  if (b_varargout_1) {
     /* SignalConversion generated from: '<S12>/In1' */
     trajGen_B.In1_c = rtb_SourceBlock_o2_i_0;
   }
@@ -1949,14 +1948,14 @@ void trajGen_step(void)
 
   /* Outputs for Atomic SubSystem: '<Root>/Subscribe' */
   /* MATLABSystem: '<S5>/SourceBlock' */
-  rtb_Compare_m = Sub_trajGen_321.getLatestMessage
+  b_varargout_1 = Sub_trajGen_321.getLatestMessage
     (&trajGen_B.rtb_SourceBlock_o2_p_m);
 
   /* Outputs for Enabled SubSystem: '<S5>/Enabled Subsystem' incorporates:
    *  EnablePort: '<S11>/Enable'
    */
   /* Start for MATLABSystem: '<S5>/SourceBlock' */
-  if (rtb_Compare_m) {
+  if (b_varargout_1) {
     /* SignalConversion generated from: '<S11>/In1' */
     trajGen_B.In1_h = trajGen_B.rtb_SourceBlock_o2_p_m;
   }
@@ -1967,15 +1966,15 @@ void trajGen_step(void)
 
   /* Outputs for Atomic SubSystem: '<Root>/position reading' */
   /* MATLABSystem: '<S9>/SourceBlock' */
-  rtb_Compare_m = Sub_trajGen_377.getLatestMessage
+  b_varargout_1 = Sub_trajGen_377.getLatestMessage
     (&trajGen_B.rtb_SourceBlock_o2_c);
 
   /* Outputs for Enabled SubSystem: '<S9>/Enabled Subsystem' incorporates:
-   *  EnablePort: '<S176>/Enable'
+   *  EnablePort: '<S174>/Enable'
    */
   /* Start for MATLABSystem: '<S9>/SourceBlock' */
-  if (rtb_Compare_m) {
-    /* SignalConversion generated from: '<S176>/In1' */
+  if (b_varargout_1) {
+    /* SignalConversion generated from: '<S174>/In1' */
     trajGen_B.In1 = trajGen_B.rtb_SourceBlock_o2_c;
   }
 
@@ -1985,9 +1984,6 @@ void trajGen_step(void)
 
   /* MATLABSystem: '<Root>/Get Parameter' */
   ParamGet_trajGen_317.get_parameter(&trajGen_B.delT);
-
-  /* MATLABSystem: '<Root>/Get Parameter1' */
-  ParamGet_trajGen_318.get_parameter(&trajGen_B.b_value);
 
   /* Outputs for Enabled SubSystem: '<Root>/Subsystem' incorporates:
    *  EnablePort: '<S7>/Enable'
@@ -2010,35 +2006,39 @@ void trajGen_step(void)
     trajGen_B.absxk = std::abs(trajGen_B.In1_h.X -
       trajGen_B.In1.Pose.Pose.Position.X);
     if (trajGen_B.absxk > 3.3121686421112381E-170) {
-      trajGen_B.myNorm = 1.0;
+      trajGen_B.distanceToGoal = 1.0;
       trajGen_B.scale = trajGen_B.absxk;
     } else {
       trajGen_B.t = trajGen_B.absxk / 3.3121686421112381E-170;
-      trajGen_B.myNorm = trajGen_B.t * trajGen_B.t;
+      trajGen_B.distanceToGoal = trajGen_B.t * trajGen_B.t;
     }
 
     trajGen_B.absxk = std::abs(trajGen_B.In1_h.Y -
       trajGen_B.In1.Pose.Pose.Position.Y);
     if (trajGen_B.absxk > trajGen_B.scale) {
       trajGen_B.t = trajGen_B.scale / trajGen_B.absxk;
-      trajGen_B.myNorm = trajGen_B.myNorm * trajGen_B.t * trajGen_B.t + 1.0;
+      trajGen_B.distanceToGoal = trajGen_B.distanceToGoal * trajGen_B.t *
+        trajGen_B.t + 1.0;
       trajGen_B.scale = trajGen_B.absxk;
     } else {
       trajGen_B.t = trajGen_B.absxk / trajGen_B.scale;
-      trajGen_B.myNorm += trajGen_B.t * trajGen_B.t;
+      trajGen_B.distanceToGoal += trajGen_B.t * trajGen_B.t;
     }
 
     trajGen_B.absxk = std::abs(trajGen_B.In1_h.Z -
       trajGen_B.In1.Pose.Pose.Position.Z);
     if (trajGen_B.absxk > trajGen_B.scale) {
       trajGen_B.t = trajGen_B.scale / trajGen_B.absxk;
-      trajGen_B.myNorm = trajGen_B.myNorm * trajGen_B.t * trajGen_B.t + 1.0;
+      trajGen_B.distanceToGoal = trajGen_B.distanceToGoal * trajGen_B.t *
+        trajGen_B.t + 1.0;
       trajGen_B.scale = trajGen_B.absxk;
     } else {
       trajGen_B.t = trajGen_B.absxk / trajGen_B.scale;
-      trajGen_B.myNorm += trajGen_B.t * trajGen_B.t;
+      trajGen_B.distanceToGoal += trajGen_B.t * trajGen_B.t;
     }
 
+    trajGen_B.distanceToGoal = trajGen_B.scale * std::sqrt
+      (trajGen_B.distanceToGoal);
     if (!trajGen_DW.startPosition_not_empty) {
       trajGen_DW.startPosition[0] = trajGen_B.In1.Pose.Pose.Position.X;
       trajGen_DW.startPosition[1] = trajGen_B.In1.Pose.Pose.Position.Y;
@@ -2088,10 +2088,10 @@ void trajGen_step(void)
     if (trajGen_DW.obj.StartFlag) {
       guard1 = true;
     } else {
-      rtb_Compare_m = false;
+      b_varargout_1 = false;
       if (!trajGen_isequaln(trajGen_B.rtb_Transpose_tmp,
                             trajGen_DW.obj.PrevWaypoint)) {
-        rtb_Compare_m = true;
+        b_varargout_1 = true;
       } else {
         p = false;
         p_0 = true;
@@ -2114,35 +2114,35 @@ void trajGen_step(void)
         }
 
         if (!p) {
-          rtb_Compare_m = true;
+          b_varargout_1 = true;
         } else {
           for (trajGen_B.b_k = 0; trajGen_B.b_k < 6; trajGen_B.b_k++) {
             trajGen_B.dv[trajGen_B.b_k] = 0.0;
           }
 
           if (!trajGen_isequaln(trajGen_B.dv, trajGen_DW.obj.PrevVelBC)) {
-            rtb_Compare_m = true;
+            b_varargout_1 = true;
           } else {
             for (trajGen_B.b_k = 0; trajGen_B.b_k < 6; trajGen_B.b_k++) {
               trajGen_B.dv[trajGen_B.b_k] = 0.0;
             }
 
             if (!trajGen_isequaln(trajGen_B.dv, trajGen_DW.obj.PrevAccelBC)) {
-              rtb_Compare_m = true;
+              b_varargout_1 = true;
             } else {
               for (trajGen_B.b_k = 0; trajGen_B.b_k < 6; trajGen_B.b_k++) {
                 trajGen_B.dv[trajGen_B.b_k] = 0.0;
               }
 
               if (!trajGen_isequaln(trajGen_B.dv, trajGen_DW.obj.PrevJerkBC)) {
-                rtb_Compare_m = true;
+                b_varargout_1 = true;
               }
             }
           }
         }
       }
 
-      if (rtb_Compare_m) {
+      if (b_varargout_1) {
         guard1 = true;
       }
     }
@@ -2150,9 +2150,9 @@ void trajGen_step(void)
     if (guard1) {
       MinJerkPolyTraj_computePPandTim(&trajGen_DW.obj,
         trajGen_B.rtb_Transpose_tmp, trajGen_B.timePoints, trajGen_B.ppMatrix,
-        trajGen_B.r, &trajGen_B.delT, &trajGen_B.absxk, &trajGen_B.t);
-      trajGen_DW.obj.SingularityStatus = trajGen_B.t;
-      trajGen_DW.obj.MaxTimeStatus = trajGen_B.absxk;
+        trajGen_B.r, &trajGen_B.delT, &trajGen_B.scale, &trajGen_B.absxk);
+      trajGen_DW.obj.SingularityStatus = trajGen_B.absxk;
+      trajGen_DW.obj.MaxTimeStatus = trajGen_B.scale;
       trajGen_DW.obj.MaxIterStatus = trajGen_B.delT;
       trajGen_DW.obj.TimeOfArrZero.set_size(1, trajGen_B.r.size(1));
       trajGen_B.loop_ub = trajGen_B.r.size(0) * trajGen_B.r.size(1) - 1;
@@ -2195,19 +2195,19 @@ void trajGen_step(void)
         [0];
       for (trajGen_B.b_k = 0; trajGen_B.b_k < 3; trajGen_B.b_k++) {
         if (std::isnan(trajGen_B.delT)) {
-          trajGen_B.absxk = (rtNaN);
+          trajGen_B.scale = (rtNaN);
         } else {
-          trajGen_B.absxk = trajGen_DW.obj.PPMatrix
+          trajGen_B.scale = trajGen_DW.obj.PPMatrix
             [(trajGen_DW.obj.PPMatrix.size(0) << 3) * trajGen_B.b_k];
           for (trajGen_B.loop_ub = 0; trajGen_B.loop_ub < 7; trajGen_B.loop_ub++)
           {
-            trajGen_B.absxk = trajGen_DW.obj.PPMatrix[(trajGen_B.loop_ub + 1) *
+            trajGen_B.scale = trajGen_DW.obj.PPMatrix[(trajGen_B.loop_ub + 1) *
               trajGen_DW.obj.PPMatrix.size(0) + (trajGen_DW.obj.PPMatrix.size(0)
-              << 3) * trajGen_B.b_k] + trajGen_B.delT * trajGen_B.absxk;
+              << 3) * trajGen_B.b_k] + trajGen_B.delT * trajGen_B.scale;
           }
         }
 
-        trajGen_B.Transpose1[trajGen_B.b_k] = trajGen_B.absxk;
+        trajGen_B.Transpose1[trajGen_B.b_k] = trajGen_B.scale;
       }
     }
 
@@ -2227,82 +2227,65 @@ void trajGen_step(void)
     trajGen_B.delT = trajGen_B.Transpose1[0] -
       trajGen_B.In1.Pose.Pose.Position.X;
 
-    /* Gain: '<S57>/Filter Coefficient' incorporates:
-     *  DiscreteIntegrator: '<S49>/Filter'
-     *  Gain: '<S47>/Derivative Gain'
-     *  Sum: '<S49>/SumD'
+    /* Gain: '<S55>/Filter Coefficient' incorporates:
+     *  DiscreteIntegrator: '<S47>/Filter'
+     *  Gain: '<S45>/Derivative Gain'
+     *  Sum: '<S47>/SumD'
      */
-    trajGen_B.absxk = (0.08 * trajGen_B.delT - trajGen_DW.Filter_DSTATE) * 3.0;
+    trajGen_B.scale = (0.08 * trajGen_B.delT - trajGen_DW.Filter_DSTATE) * 3.0;
 
-    /* Sum: '<S63>/Sum' incorporates:
-     *  DiscreteIntegrator: '<S54>/Integrator'
-     *  Gain: '<S59>/Proportional Gain'
+    /* Sum: '<S61>/Sum' incorporates:
+     *  DiscreteIntegrator: '<S52>/Integrator'
+     *  Gain: '<S57>/Proportional Gain'
      */
     trajGen_B.Sum = (0.7 * trajGen_B.delT + trajGen_DW.Integrator_DSTATE) +
-      trajGen_B.absxk;
+      trajGen_B.scale;
 
-    /* Product: '<S68>/Ungain*Ts Prod Out' */
-    trajGen_B.t = trajGen_B.absxk * 0.0;
+    /* Product: '<S66>/Ungain*Ts Prod Out' */
+    trajGen_B.absxk = trajGen_B.scale * 0.0;
 
     /* Sum: '<S7>/Sum1' incorporates:
      *  MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory'
      */
-    trajGen_B.absxk = trajGen_B.Transpose1[1] -
+    trajGen_B.scale = trajGen_B.Transpose1[1] -
       trajGen_B.In1.Pose.Pose.Position.Y;
 
-    /* Gain: '<S109>/Filter Coefficient' incorporates:
-     *  DiscreteIntegrator: '<S101>/Filter'
-     *  Gain: '<S99>/Derivative Gain'
-     *  Sum: '<S101>/SumD'
+    /* Gain: '<S107>/Filter Coefficient' incorporates:
+     *  DiscreteIntegrator: '<S99>/Filter'
+     *  Gain: '<S97>/Derivative Gain'
+     *  Sum: '<S99>/SumD'
      */
-    trajGen_B.IntegralGain = (0.08 * trajGen_B.absxk -
-      trajGen_DW.Filter_DSTATE_a) * 3.0;
+    trajGen_B.t = (0.08 * trajGen_B.scale - trajGen_DW.Filter_DSTATE_a) * 3.0;
 
-    /* Sum: '<S115>/Sum' incorporates:
-     *  DiscreteIntegrator: '<S106>/Integrator'
-     *  Gain: '<S111>/Proportional Gain'
+    /* Sum: '<S113>/Sum' incorporates:
+     *  DiscreteIntegrator: '<S104>/Integrator'
+     *  Gain: '<S109>/Proportional Gain'
      */
-    trajGen_B.Sum_n = (0.7 * trajGen_B.absxk + trajGen_DW.Integrator_DSTATE_o) +
-      trajGen_B.IntegralGain;
+    trajGen_B.Sum_n = (0.7 * trajGen_B.scale + trajGen_DW.Integrator_DSTATE_o) +
+      trajGen_B.t;
 
-    /* Product: '<S120>/Ungain*Ts Prod Out' */
-    trajGen_B.UngainTsProdOut_j = trajGen_B.IntegralGain * 0.0;
+    /* Product: '<S118>/Ungain*Ts Prod Out' */
+    trajGen_B.UngainTsProdOut_j = trajGen_B.t * 0.0;
 
     /* Sum: '<S7>/Sum2' incorporates:
      *  MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory'
      */
-    trajGen_B.IntegralGain = trajGen_B.Transpose1[2] -
-      trajGen_B.In1.Pose.Pose.Position.Z;
+    trajGen_B.t = trajGen_B.Transpose1[2] - trajGen_B.In1.Pose.Pose.Position.Z;
 
-    /* Gain: '<S161>/Filter Coefficient' incorporates:
-     *  DiscreteIntegrator: '<S153>/Filter'
-     *  Gain: '<S151>/Derivative Gain'
-     *  Sum: '<S153>/SumD'
+    /* Gain: '<S159>/Filter Coefficient' incorporates:
+     *  DiscreteIntegrator: '<S151>/Filter'
+     *  Gain: '<S149>/Derivative Gain'
+     *  Sum: '<S151>/SumD'
      */
-    trajGen_B.FilterCoefficient = (0.08 * trajGen_B.IntegralGain -
+    trajGen_B.FilterCoefficient = (0.08 * trajGen_B.t -
       trajGen_DW.Filter_DSTATE_b) * 3.0;
 
-    /* Sum: '<S167>/Sum' incorporates:
-     *  DiscreteIntegrator: '<S158>/Integrator'
-     *  Gain: '<S163>/Proportional Gain'
+    /* Sum: '<S165>/Sum' incorporates:
+     *  DiscreteIntegrator: '<S156>/Integrator'
+     *  Gain: '<S161>/Proportional Gain'
      */
-    trajGen_B.Sum_b = (0.7 * trajGen_B.IntegralGain +
-                       trajGen_DW.Integrator_DSTATE_h) +
+    trajGen_B.Sum_b = (0.7 * trajGen_B.t + trajGen_DW.Integrator_DSTATE_h) +
       trajGen_B.FilterCoefficient;
-
-    /* RelationalOperator: '<S19>/Compare' incorporates:
-     *  Constant: '<S19>/Constant'
-     *  MATLAB Function: '<S7>/MATLAB Function1'
-     *  MATLABSystem: '<Root>/Get Parameter1'
-     * */
-    rtb_Compare_m = (trajGen_B.scale * std::sqrt(trajGen_B.myNorm) <=
-                     trajGen_B.b_value);
-
-    /* RelationalOperator: '<S13>/FixPt Relational Operator' incorporates:
-     *  UnitDelay: '<S13>/Delay Input1'
-     */
-    trajGen_B.FixPtRelationalOperator = (static_cast<int32_T>(rtb_Compare_m) >
-      static_cast<int32_T>(trajGen_DW.DelayInput1_DSTATE_o));
 
     /* Update for DiscreteIntegrator: '<S7>/Discrete-Time Integrator' incorporates:
      *  Constant: '<S7>/Constant1'
@@ -2311,49 +2294,46 @@ void trajGen_step(void)
     trajGen_DW.DiscreteTimeIntegrator_PrevRese = static_cast<int8_T>
       (rtb_FixPtRelationalOperator);
 
-    /* Update for DiscreteIntegrator: '<S49>/Filter' */
-    trajGen_DW.Filter_DSTATE += trajGen_B.t;
+    /* Update for DiscreteIntegrator: '<S47>/Filter' */
+    trajGen_DW.Filter_DSTATE += trajGen_B.absxk;
 
-    /* Update for DiscreteIntegrator: '<S54>/Integrator' incorporates:
-     *  Gain: '<S51>/Integral Gain'
-     *  Product: '<S67>/Uintegral*Ts Prod Out'
+    /* Update for DiscreteIntegrator: '<S52>/Integrator' incorporates:
+     *  Gain: '<S49>/Integral Gain'
+     *  Product: '<S65>/Uintegral*Ts Prod Out'
      */
     trajGen_DW.Integrator_DSTATE += 0.0 * trajGen_B.delT * 0.0;
 
-    /* Update for DiscreteIntegrator: '<S101>/Filter' */
+    /* Update for DiscreteIntegrator: '<S99>/Filter' */
     trajGen_DW.Filter_DSTATE_a += trajGen_B.UngainTsProdOut_j;
 
-    /* Update for DiscreteIntegrator: '<S106>/Integrator' incorporates:
-     *  Gain: '<S103>/Integral Gain'
-     *  Product: '<S119>/Uintegral*Ts Prod Out'
+    /* Update for DiscreteIntegrator: '<S104>/Integrator' incorporates:
+     *  Gain: '<S101>/Integral Gain'
+     *  Product: '<S117>/Uintegral*Ts Prod Out'
      */
-    trajGen_DW.Integrator_DSTATE_o += 0.0 * trajGen_B.absxk * 0.0;
+    trajGen_DW.Integrator_DSTATE_o += 0.0 * trajGen_B.scale * 0.0;
 
-    /* Update for DiscreteIntegrator: '<S153>/Filter' incorporates:
-     *  Product: '<S172>/Ungain*Ts Prod Out'
+    /* Update for DiscreteIntegrator: '<S151>/Filter' incorporates:
+     *  Product: '<S170>/Ungain*Ts Prod Out'
      */
     trajGen_DW.Filter_DSTATE_b += trajGen_B.FilterCoefficient * 0.0;
 
-    /* Update for DiscreteIntegrator: '<S158>/Integrator' incorporates:
-     *  Gain: '<S155>/Integral Gain'
-     *  Product: '<S171>/Uintegral*Ts Prod Out'
+    /* Update for DiscreteIntegrator: '<S156>/Integrator' incorporates:
+     *  Gain: '<S153>/Integral Gain'
+     *  Product: '<S169>/Uintegral*Ts Prod Out'
      */
-    trajGen_DW.Integrator_DSTATE_h += 0.0 * trajGen_B.IntegralGain * 0.0;
-
-    /* Update for UnitDelay: '<S13>/Delay Input1' */
-    trajGen_DW.DelayInput1_DSTATE_o = rtb_Compare_m;
+    trajGen_DW.Integrator_DSTATE_h += 0.0 * trajGen_B.t * 0.0;
   } else if (trajGen_DW.Subsystem_MODE) {
-    /* Disable for Sum: '<S63>/Sum' incorporates:
+    /* Disable for Sum: '<S61>/Sum' incorporates:
      *  Outport: '<S7>/x'
      */
     trajGen_B.Sum = 0.0;
 
-    /* Disable for Sum: '<S115>/Sum' incorporates:
+    /* Disable for Sum: '<S113>/Sum' incorporates:
      *  Outport: '<S7>/y'
      */
     trajGen_B.Sum_n = 0.0;
 
-    /* Disable for Sum: '<S167>/Sum' incorporates:
+    /* Disable for Sum: '<S165>/Sum' incorporates:
      *  Outport: '<S7>/z'
      */
     trajGen_B.Sum_b = 0.0;
@@ -2363,11 +2343,11 @@ void trajGen_step(void)
   /* End of Outputs for SubSystem: '<Root>/Subsystem' */
 
   /* BusAssignment: '<Root>/Bus Assignment2' */
-  rtb_BusAssignment2.Data = trajGen_B.FixPtRelationalOperator;
+  trajGen_B.BusAssignment2.Data = trajGen_B.distanceToGoal;
 
   /* Outputs for Atomic SubSystem: '<Root>/Publish1' */
   /* MATLABSystem: '<S4>/SinkBlock' */
-  Pub_trajGen_378.publish(&rtb_BusAssignment2);
+  Pub_trajGen_378.publish(&trajGen_B.BusAssignment2);
 
   /* End of Outputs for SubSystem: '<Root>/Publish1' */
 
@@ -2405,15 +2385,13 @@ void trajGen_initialize(void)
   {
     static const char_T b_zeroDelimTopic_2[23]{ "/tagslam/odom/body_rig" };
 
-    static const char_T b_zeroDelimName_1[20]{ "/trajGen/goalRadius" };
-
     static const char_T b_zeroDelimTopic_4[17]{ "/command/cmd_vel" };
 
     static const char_T b_zeroDelimTopic_0[16]{ "/trajGen/enable" };
 
-    static const char_T b_zeroDelimName_0[14]{ "/trajGen/velo" };
+    static const char_T b_zeroDelimTopic_3[16]{ "/distanceToGoal" };
 
-    static const char_T b_zeroDelimTopic_3[14]{ "/goal_reached" };
+    static const char_T b_zeroDelimName_0[14]{ "/trajGen/velo" };
 
     static const char_T b_zeroDelimTopic_1[13]{ "/chase_point" };
 
@@ -2482,21 +2460,6 @@ void trajGen_initialize(void)
 
     /* End of Start for MATLABSystem: '<Root>/Get Parameter' */
 
-    /* Start for MATLABSystem: '<Root>/Get Parameter1' */
-    trajGen_DW.obj_p.matlabCodegenIsDeleted = false;
-    trajGen_DW.objisempty_ap = true;
-    trajGen_DW.obj_p.isInitialized = 1;
-    for (i = 0; i < 20; i++) {
-      trajGen_B.b_zeroDelimName[i] = b_zeroDelimName_1[i];
-    }
-
-    ParamGet_trajGen_318.initialize(&trajGen_B.b_zeroDelimName[0]);
-    ParamGet_trajGen_318.initialize_error_codes(0, 1, 2, 3);
-    ParamGet_trajGen_318.set_initial_value(0.0);
-    trajGen_DW.obj_p.isSetupComplete = true;
-
-    /* End of Start for MATLABSystem: '<Root>/Get Parameter1' */
-
     /* Start for Enabled SubSystem: '<Root>/Subsystem' */
     trajGen_DW.Subsystem_MODE = false;
 
@@ -2519,11 +2482,11 @@ void trajGen_initialize(void)
     trajGen_DW.obj_b.matlabCodegenIsDeleted = false;
     trajGen_DW.objisempty_b = true;
     trajGen_DW.obj_b.isInitialized = 1;
-    for (i = 0; i < 14; i++) {
-      b_zeroDelimName[i] = b_zeroDelimTopic_3[i];
+    for (i = 0; i < 16; i++) {
+      trajGen_B.b_zeroDelimTopic_p[i] = b_zeroDelimTopic_3[i];
     }
 
-    Pub_trajGen_378.createPublisher(&b_zeroDelimName[0], 1);
+    Pub_trajGen_378.createPublisher(&trajGen_B.b_zeroDelimTopic_p[0], 1);
     trajGen_DW.obj_b.isSetupComplete = true;
 
     /* End of Start for MATLABSystem: '<S4>/SinkBlock' */
@@ -2559,26 +2522,23 @@ void trajGen_initialize(void)
   trajGen_DW.DiscreteTimeIntegrator_DSTATE = 0.0;
   trajGen_DW.DiscreteTimeIntegrator_PrevRese = 2;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S49>/Filter' */
+  /* InitializeConditions for DiscreteIntegrator: '<S47>/Filter' */
   trajGen_DW.Filter_DSTATE = 0.0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S54>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S52>/Integrator' */
   trajGen_DW.Integrator_DSTATE = 0.0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S101>/Filter' */
+  /* InitializeConditions for DiscreteIntegrator: '<S99>/Filter' */
   trajGen_DW.Filter_DSTATE_a = 0.0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S106>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S104>/Integrator' */
   trajGen_DW.Integrator_DSTATE_o = 0.0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S153>/Filter' */
+  /* InitializeConditions for DiscreteIntegrator: '<S151>/Filter' */
   trajGen_DW.Filter_DSTATE_b = 0.0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S158>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S156>/Integrator' */
   trajGen_DW.Integrator_DSTATE_h = 0.0;
-
-  /* InitializeConditions for UnitDelay: '<S13>/Delay Input1' */
-  trajGen_DW.DelayInput1_DSTATE_o = false;
 
   /* SystemInitialize for MATLAB Function: '<S7>/MATLAB Function1' */
   trajGen_DW.startPosition_not_empty = false;
@@ -2586,29 +2546,27 @@ void trajGen_initialize(void)
   /* InitializeConditions for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
   trajGen_DW.obj.StartFlag = true;
 
-  /* SystemInitialize for Sum: '<S63>/Sum' incorporates:
+  /* SystemInitialize for Sum: '<S61>/Sum' incorporates:
    *  Outport: '<S7>/x'
    */
   trajGen_B.Sum = 0.0;
 
-  /* SystemInitialize for Sum: '<S115>/Sum' incorporates:
+  /* SystemInitialize for Sum: '<S113>/Sum' incorporates:
    *  Outport: '<S7>/y'
    */
   trajGen_B.Sum_n = 0.0;
 
-  /* SystemInitialize for Sum: '<S167>/Sum' incorporates:
+  /* SystemInitialize for Sum: '<S165>/Sum' incorporates:
    *  Outport: '<S7>/z'
    */
   trajGen_B.Sum_b = 0.0;
 
-  /* SystemInitialize for RelationalOperator: '<S13>/FixPt Relational Operator' incorporates:
-   *  Outport: '<S7>/goalReached'
-   */
-  trajGen_B.FixPtRelationalOperator = false;
+  /* SystemInitialize for Outport: '<S7>/distance' */
+  trajGen_B.distanceToGoal = 0.0;
 
   /* End of SystemInitialize for SubSystem: '<Root>/Subsystem' */
 
-  /* SystemInitialize for SignalConversion generated from: '<S176>/In1' */
+  /* SystemInitialize for SignalConversion generated from: '<S174>/In1' */
   std::memset(&trajGen_B.In1, 0, sizeof(SL_Bus_trajGen_nav_msgs_Odometry));
 }
 
@@ -2648,13 +2606,6 @@ void trajGen_terminate(void)
   }
 
   /* End of Terminate for MATLABSystem: '<Root>/Get Parameter' */
-
-  /* Terminate for MATLABSystem: '<Root>/Get Parameter1' */
-  if (!trajGen_DW.obj_p.matlabCodegenIsDeleted) {
-    trajGen_DW.obj_p.matlabCodegenIsDeleted = true;
-  }
-
-  /* End of Terminate for MATLABSystem: '<Root>/Get Parameter1' */
 
   /* Terminate for Atomic SubSystem: '<Root>/Publish1' */
   /* Terminate for MATLABSystem: '<S4>/SinkBlock' */

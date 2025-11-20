@@ -12,6 +12,7 @@
 #include <nav_msgs/Odometry.h>
 #include <ros/time.h>
 #include <std_msgs/Bool.h>
+#include <std_msgs/Float64.h>
 #include <std_msgs/Header.h>
 #include "trajGen_types.h"
 #include "slros_msgconvert_utils.h"
@@ -46,6 +47,9 @@ void convertToBus(SL_Bus_trajGen_ros_time_Time* busPtr, ros::Time const* msgPtr)
 
 void convertFromBus(std_msgs::Bool* msgPtr, SL_Bus_trajGen_std_msgs_Bool const* busPtr);
 void convertToBus(SL_Bus_trajGen_std_msgs_Bool* busPtr, std_msgs::Bool const* msgPtr);
+
+void convertFromBus(std_msgs::Float64* msgPtr, SL_Bus_trajGen_std_msgs_Float64 const* busPtr);
+void convertToBus(SL_Bus_trajGen_std_msgs_Float64* busPtr, std_msgs::Float64 const* msgPtr);
 
 void convertFromBus(std_msgs::Header* msgPtr, SL_Bus_trajGen_std_msgs_Header const* busPtr);
 void convertToBus(SL_Bus_trajGen_std_msgs_Header* busPtr, std_msgs::Header const* msgPtr);

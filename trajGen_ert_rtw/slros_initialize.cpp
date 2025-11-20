@@ -16,13 +16,10 @@ SimulinkSubscriber<nav_msgs::Odometry, SL_Bus_trajGen_nav_msgs_Odometry> Sub_tra
 SimulinkPublisher<geometry_msgs::Twist, SL_Bus_trajGen_geometry_msgs_Twist> Pub_trajGen_319;
 
 // For Block trajGen/Publish1
-SimulinkPublisher<std_msgs::Bool, SL_Bus_trajGen_std_msgs_Bool> Pub_trajGen_378;
+SimulinkPublisher<std_msgs::Float64, SL_Bus_trajGen_std_msgs_Float64> Pub_trajGen_378;
 
 // For Block trajGen/Get Parameter
 SimulinkParameterGetter<real64_T, double> ParamGet_trajGen_317;
-
-// For Block trajGen/Get Parameter1
-SimulinkParameterGetter<real64_T, double> ParamGet_trajGen_318;
 
 void slros_node_init(int argc, char** argv)
 {
