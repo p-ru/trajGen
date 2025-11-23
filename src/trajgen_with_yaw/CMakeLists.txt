@@ -130,4 +130,4 @@ add_custom_command(
                    ARGS -E copy ${PROJECT_SOURCE_DIR}/src/${file_i} ${CATKIN_DEVEL_PREFIX}/trajGen_with_yaw_ert_rtw/${file_i}
 				   )
 endforeach(file_i)
-# Generated on Sun Nov 23 22:59:38 2025
+# Generated on Sun Nov 23 23:33:30 2025

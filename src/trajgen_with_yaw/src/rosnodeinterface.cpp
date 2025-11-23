@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'trajGen_with_yaw'.
 //
-// Model version                  : 1.25
+// Model version                  : 1.27
 // Simulink Coder version         : 24.2 (R2024b) 21-Jun-2024
-// C/C++ source code generated on : Sun Nov 23 22:59:32 2025
+// C/C++ source code generated on : Sun Nov 23 23:33:25 2025
 //
 
 #ifdef _MSC_VER

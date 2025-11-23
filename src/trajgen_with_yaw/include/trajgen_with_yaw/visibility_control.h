@@ -28,5 +28,5 @@
   #define TRAJGEN_WITH_YAW_PUBLIC_TYPE
 #endif
 #endif  // TRAJGEN_WITH_YAW__VISIBILITY_CONTROL_H_
-// Generated 23-Nov-2025 22:59:38
+// Generated 23-Nov-2025 23:33:30
 // Copyright 2019-2020 The MathWorks, Inc.

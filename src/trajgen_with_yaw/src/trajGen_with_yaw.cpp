@@ -7,9 +7,9 @@
  *
  * Code generation for model "trajGen_with_yaw".
  *
- * Model version              : 1.25
+ * Model version              : 1.27
  * Simulink Coder version : 24.2 (R2024b) 21-Jun-2024
- * C++ source code generated on : Sun Nov 23 22:59:20 2025
+ * C++ source code generated on : Sun Nov 23 23:33:17 2025
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -2417,11 +2417,11 @@ void trajGen_with_yaw_step(void)
 
     /* SignalConversion generated from: '<S5>/Vector Concatenate2' */
     trajGen_with_yaw_B.VectorConcatenate3[1] =
-      trajGen_with_yaw_B.In1.Twist.Twist.Angular.X;
+      trajGen_with_yaw_B.In1.Pose.Pose.Orientation.X;
     trajGen_with_yaw_B.VectorConcatenate3[2] =
-      trajGen_with_yaw_B.In1.Twist.Twist.Angular.Y;
+      trajGen_with_yaw_B.In1.Pose.Pose.Orientation.Y;
     trajGen_with_yaw_B.VectorConcatenate3[3] =
-      trajGen_with_yaw_B.In1.Twist.Twist.Angular.Z;
+      trajGen_with_yaw_B.In1.Pose.Pose.Orientation.Z;
     CoordinateTransformationConvers(trajGen_with_yaw_B.VectorConcatenate3,
       &trajGen_with_yaw_B.CoordinateTransformationConv_pn);
 
