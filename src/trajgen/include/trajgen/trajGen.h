@@ -7,9 +7,9 @@
  *
  * Code generation for model "trajGen".
  *
- * Model version              : 1.22
+ * Model version              : 1.23
  * Simulink Coder version : 24.2 (R2024b) 21-Jun-2024
- * C++ source code generated on : Fri Nov 21 03:30:20 2025
+ * C++ source code generated on : Mon Nov 24 01:02:36 2025
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -70,7 +70,7 @@ struct B_trajGen_T {
   coder::array<real_T,1> vn1;
   coder::array<real_T,1> vn2;
   coder::array<int32_T,2> jpvt;
-  SL_Bus_trajGen_nav_msgs_Odometry In1;/* '<S174>/In1' */
+  SL_Bus_trajGen_nav_msgs_Odometry In1;/* '<S175>/In1' */
   SL_Bus_trajGen_nav_msgs_Odometry rtb_SourceBlock_o2_c;
   real_T M[64];
   real_T AInv[64];
@@ -116,16 +116,16 @@ struct B_trajGen_T {
   real_T timePoints[2];                /* '<S7>/MATLAB Function' */
   int8_T tmp_data_l[8];
   boolean_T x_tmp[8];
-  real_T Sum;                          /* '<S61>/Sum' */
-  real_T Sum_n;                        /* '<S113>/Sum' */
-  real_T Sum_b;                        /* '<S165>/Sum' */
+  real_T Gain1;                        /* '<S7>/Gain1' */
+  real_T Sum;                          /* '<S62>/Sum' */
+  real_T Gain2;                        /* '<S7>/Gain2' */
   real_T distanceToGoal;               /* '<S7>/MATLAB Function1' */
   real_T scale;
   real_T absxk;
   real_T t;
   real_T delT;
-  real_T UngainTsProdOut_j;            /* '<S118>/Ungain*Ts Prod Out' */
-  real_T FilterCoefficient;            /* '<S159>/Filter Coefficient' */
+  real_T UngainTsProdOut_h;            /* '<S67>/Ungain*Ts Prod Out' */
+  real_T FilterCoefficient;            /* '<S160>/Filter Coefficient' */
   real_T tmp1;
   real_T prod;
   real_T lowerright_d;
@@ -190,23 +190,26 @@ struct DW_trajGen_T {
   ros_slroscpp_internal_block_S_T obj_m;/* '<S6>/SourceBlock' */
   ros_slroscpp_internal_block_S_T obj_kx;/* '<S5>/SourceBlock' */
   real_T DiscreteTimeIntegrator_DSTATE;/* '<S7>/Discrete-Time Integrator' */
-  real_T Filter_DSTATE;                /* '<S47>/Filter' */
-  real_T Integrator_DSTATE;            /* '<S52>/Integrator' */
-  real_T Filter_DSTATE_a;              /* '<S99>/Filter' */
-  real_T Integrator_DSTATE_o;          /* '<S104>/Integrator' */
-  real_T Filter_DSTATE_b;              /* '<S151>/Filter' */
-  real_T Integrator_DSTATE_h;          /* '<S156>/Integrator' */
+  real_T Integrator_DSTATE;            /* '<S105>/Integrator' */
+  real_T Filter_DSTATE;                /* '<S100>/Filter' */
+  real_T Filter_DSTATE_j;              /* '<S48>/Filter' */
+  real_T Integrator_DSTATE_h;          /* '<S53>/Integrator' */
+  real_T Integrator_DSTATE_hi;         /* '<S157>/Integrator' */
+  real_T Filter_DSTATE_b;              /* '<S152>/Filter' */
   real_T freq;                   /* '<S7>/Minimum Jerk Polynomial Trajectory' */
   real_T startPosition[3];             /* '<S7>/MATLAB Function1' */
+  robotics_slcore_internal_bloc_T obj_f;
+                               /* '<S7>/Coordinate Transformation Conversion' */
   boolean_T DelayInput1_DSTATE;        /* '<S2>/Delay Input1' */
   int8_T DiscreteTimeIntegrator_PrevRese;/* '<S7>/Discrete-Time Integrator' */
   boolean_T objisempty;                /* '<S9>/SourceBlock' */
   boolean_T objisempty_l;        /* '<S7>/Minimum Jerk Polynomial Trajectory' */
   boolean_T freq_not_empty;      /* '<S7>/Minimum Jerk Polynomial Trajectory' */
   boolean_T startPosition_not_empty;   /* '<S7>/MATLAB Function1' */
+  boolean_T objisempty_b;      /* '<S7>/Coordinate Transformation Conversion' */
   boolean_T objisempty_c;              /* '<S6>/SourceBlock' */
   boolean_T objisempty_lg;             /* '<S5>/SourceBlock' */
-  boolean_T objisempty_b;              /* '<S4>/SinkBlock' */
+  boolean_T objisempty_bt;             /* '<S4>/SinkBlock' */
   boolean_T objisempty_a;              /* '<S3>/SinkBlock' */
   boolean_T objisempty_f;              /* '<Root>/Get Parameter' */
   boolean_T Subsystem_MODE;            /* '<Root>/Subsystem' */
@@ -302,165 +305,166 @@ extern volatile boolean_T runModel;
  * '<S12>'  : 'trajGen/Subscribe1/Enabled Subsystem'
  * '<S13>'  : 'trajGen/Subsystem/MATLAB Function'
  * '<S14>'  : 'trajGen/Subsystem/MATLAB Function1'
- * '<S15>'  : 'trajGen/Subsystem/X'
- * '<S16>'  : 'trajGen/Subsystem/Y'
- * '<S17>'  : 'trajGen/Subsystem/Z'
- * '<S18>'  : 'trajGen/Subsystem/X/Anti-windup'
- * '<S19>'  : 'trajGen/Subsystem/X/D Gain'
- * '<S20>'  : 'trajGen/Subsystem/X/External Derivative'
- * '<S21>'  : 'trajGen/Subsystem/X/Filter'
- * '<S22>'  : 'trajGen/Subsystem/X/Filter ICs'
- * '<S23>'  : 'trajGen/Subsystem/X/I Gain'
- * '<S24>'  : 'trajGen/Subsystem/X/Ideal P Gain'
- * '<S25>'  : 'trajGen/Subsystem/X/Ideal P Gain Fdbk'
- * '<S26>'  : 'trajGen/Subsystem/X/Integrator'
- * '<S27>'  : 'trajGen/Subsystem/X/Integrator ICs'
- * '<S28>'  : 'trajGen/Subsystem/X/N Copy'
- * '<S29>'  : 'trajGen/Subsystem/X/N Gain'
- * '<S30>'  : 'trajGen/Subsystem/X/P Copy'
- * '<S31>'  : 'trajGen/Subsystem/X/Parallel P Gain'
- * '<S32>'  : 'trajGen/Subsystem/X/Reset Signal'
- * '<S33>'  : 'trajGen/Subsystem/X/Saturation'
- * '<S34>'  : 'trajGen/Subsystem/X/Saturation Fdbk'
- * '<S35>'  : 'trajGen/Subsystem/X/Sum'
- * '<S36>'  : 'trajGen/Subsystem/X/Sum Fdbk'
- * '<S37>'  : 'trajGen/Subsystem/X/Tracking Mode'
- * '<S38>'  : 'trajGen/Subsystem/X/Tracking Mode Sum'
- * '<S39>'  : 'trajGen/Subsystem/X/Tsamp - Integral'
- * '<S40>'  : 'trajGen/Subsystem/X/Tsamp - Ngain'
- * '<S41>'  : 'trajGen/Subsystem/X/postSat Signal'
- * '<S42>'  : 'trajGen/Subsystem/X/preInt Signal'
- * '<S43>'  : 'trajGen/Subsystem/X/preSat Signal'
- * '<S44>'  : 'trajGen/Subsystem/X/Anti-windup/Passthrough'
- * '<S45>'  : 'trajGen/Subsystem/X/D Gain/Internal Parameters'
- * '<S46>'  : 'trajGen/Subsystem/X/External Derivative/Error'
- * '<S47>'  : 'trajGen/Subsystem/X/Filter/Disc. Forward Euler Filter'
- * '<S48>'  : 'trajGen/Subsystem/X/Filter ICs/Internal IC - Filter'
- * '<S49>'  : 'trajGen/Subsystem/X/I Gain/Internal Parameters'
- * '<S50>'  : 'trajGen/Subsystem/X/Ideal P Gain/Passthrough'
- * '<S51>'  : 'trajGen/Subsystem/X/Ideal P Gain Fdbk/Disabled'
- * '<S52>'  : 'trajGen/Subsystem/X/Integrator/Discrete'
- * '<S53>'  : 'trajGen/Subsystem/X/Integrator ICs/Internal IC'
- * '<S54>'  : 'trajGen/Subsystem/X/N Copy/Disabled'
- * '<S55>'  : 'trajGen/Subsystem/X/N Gain/Internal Parameters'
- * '<S56>'  : 'trajGen/Subsystem/X/P Copy/Disabled'
- * '<S57>'  : 'trajGen/Subsystem/X/Parallel P Gain/Internal Parameters'
- * '<S58>'  : 'trajGen/Subsystem/X/Reset Signal/Disabled'
- * '<S59>'  : 'trajGen/Subsystem/X/Saturation/Passthrough'
- * '<S60>'  : 'trajGen/Subsystem/X/Saturation Fdbk/Disabled'
- * '<S61>'  : 'trajGen/Subsystem/X/Sum/Sum_PID'
- * '<S62>'  : 'trajGen/Subsystem/X/Sum Fdbk/Disabled'
- * '<S63>'  : 'trajGen/Subsystem/X/Tracking Mode/Disabled'
- * '<S64>'  : 'trajGen/Subsystem/X/Tracking Mode Sum/Passthrough'
- * '<S65>'  : 'trajGen/Subsystem/X/Tsamp - Integral/External Ts'
- * '<S66>'  : 'trajGen/Subsystem/X/Tsamp - Ngain/External Ts'
- * '<S67>'  : 'trajGen/Subsystem/X/postSat Signal/Forward_Path'
- * '<S68>'  : 'trajGen/Subsystem/X/preInt Signal/Internal PreInt'
- * '<S69>'  : 'trajGen/Subsystem/X/preSat Signal/Forward_Path'
- * '<S70>'  : 'trajGen/Subsystem/Y/Anti-windup'
- * '<S71>'  : 'trajGen/Subsystem/Y/D Gain'
- * '<S72>'  : 'trajGen/Subsystem/Y/External Derivative'
- * '<S73>'  : 'trajGen/Subsystem/Y/Filter'
- * '<S74>'  : 'trajGen/Subsystem/Y/Filter ICs'
- * '<S75>'  : 'trajGen/Subsystem/Y/I Gain'
- * '<S76>'  : 'trajGen/Subsystem/Y/Ideal P Gain'
- * '<S77>'  : 'trajGen/Subsystem/Y/Ideal P Gain Fdbk'
- * '<S78>'  : 'trajGen/Subsystem/Y/Integrator'
- * '<S79>'  : 'trajGen/Subsystem/Y/Integrator ICs'
- * '<S80>'  : 'trajGen/Subsystem/Y/N Copy'
- * '<S81>'  : 'trajGen/Subsystem/Y/N Gain'
- * '<S82>'  : 'trajGen/Subsystem/Y/P Copy'
- * '<S83>'  : 'trajGen/Subsystem/Y/Parallel P Gain'
- * '<S84>'  : 'trajGen/Subsystem/Y/Reset Signal'
- * '<S85>'  : 'trajGen/Subsystem/Y/Saturation'
- * '<S86>'  : 'trajGen/Subsystem/Y/Saturation Fdbk'
- * '<S87>'  : 'trajGen/Subsystem/Y/Sum'
- * '<S88>'  : 'trajGen/Subsystem/Y/Sum Fdbk'
- * '<S89>'  : 'trajGen/Subsystem/Y/Tracking Mode'
- * '<S90>'  : 'trajGen/Subsystem/Y/Tracking Mode Sum'
- * '<S91>'  : 'trajGen/Subsystem/Y/Tsamp - Integral'
- * '<S92>'  : 'trajGen/Subsystem/Y/Tsamp - Ngain'
- * '<S93>'  : 'trajGen/Subsystem/Y/postSat Signal'
- * '<S94>'  : 'trajGen/Subsystem/Y/preInt Signal'
- * '<S95>'  : 'trajGen/Subsystem/Y/preSat Signal'
- * '<S96>'  : 'trajGen/Subsystem/Y/Anti-windup/Passthrough'
- * '<S97>'  : 'trajGen/Subsystem/Y/D Gain/Internal Parameters'
- * '<S98>'  : 'trajGen/Subsystem/Y/External Derivative/Error'
- * '<S99>'  : 'trajGen/Subsystem/Y/Filter/Disc. Forward Euler Filter'
- * '<S100>' : 'trajGen/Subsystem/Y/Filter ICs/Internal IC - Filter'
- * '<S101>' : 'trajGen/Subsystem/Y/I Gain/Internal Parameters'
- * '<S102>' : 'trajGen/Subsystem/Y/Ideal P Gain/Passthrough'
- * '<S103>' : 'trajGen/Subsystem/Y/Ideal P Gain Fdbk/Disabled'
- * '<S104>' : 'trajGen/Subsystem/Y/Integrator/Discrete'
- * '<S105>' : 'trajGen/Subsystem/Y/Integrator ICs/Internal IC'
- * '<S106>' : 'trajGen/Subsystem/Y/N Copy/Disabled'
- * '<S107>' : 'trajGen/Subsystem/Y/N Gain/Internal Parameters'
- * '<S108>' : 'trajGen/Subsystem/Y/P Copy/Disabled'
- * '<S109>' : 'trajGen/Subsystem/Y/Parallel P Gain/Internal Parameters'
- * '<S110>' : 'trajGen/Subsystem/Y/Reset Signal/Disabled'
- * '<S111>' : 'trajGen/Subsystem/Y/Saturation/Passthrough'
- * '<S112>' : 'trajGen/Subsystem/Y/Saturation Fdbk/Disabled'
- * '<S113>' : 'trajGen/Subsystem/Y/Sum/Sum_PID'
- * '<S114>' : 'trajGen/Subsystem/Y/Sum Fdbk/Disabled'
- * '<S115>' : 'trajGen/Subsystem/Y/Tracking Mode/Disabled'
- * '<S116>' : 'trajGen/Subsystem/Y/Tracking Mode Sum/Passthrough'
- * '<S117>' : 'trajGen/Subsystem/Y/Tsamp - Integral/External Ts'
- * '<S118>' : 'trajGen/Subsystem/Y/Tsamp - Ngain/External Ts'
- * '<S119>' : 'trajGen/Subsystem/Y/postSat Signal/Forward_Path'
- * '<S120>' : 'trajGen/Subsystem/Y/preInt Signal/Internal PreInt'
- * '<S121>' : 'trajGen/Subsystem/Y/preSat Signal/Forward_Path'
- * '<S122>' : 'trajGen/Subsystem/Z/Anti-windup'
- * '<S123>' : 'trajGen/Subsystem/Z/D Gain'
- * '<S124>' : 'trajGen/Subsystem/Z/External Derivative'
- * '<S125>' : 'trajGen/Subsystem/Z/Filter'
- * '<S126>' : 'trajGen/Subsystem/Z/Filter ICs'
- * '<S127>' : 'trajGen/Subsystem/Z/I Gain'
- * '<S128>' : 'trajGen/Subsystem/Z/Ideal P Gain'
- * '<S129>' : 'trajGen/Subsystem/Z/Ideal P Gain Fdbk'
- * '<S130>' : 'trajGen/Subsystem/Z/Integrator'
- * '<S131>' : 'trajGen/Subsystem/Z/Integrator ICs'
- * '<S132>' : 'trajGen/Subsystem/Z/N Copy'
- * '<S133>' : 'trajGen/Subsystem/Z/N Gain'
- * '<S134>' : 'trajGen/Subsystem/Z/P Copy'
- * '<S135>' : 'trajGen/Subsystem/Z/Parallel P Gain'
- * '<S136>' : 'trajGen/Subsystem/Z/Reset Signal'
- * '<S137>' : 'trajGen/Subsystem/Z/Saturation'
- * '<S138>' : 'trajGen/Subsystem/Z/Saturation Fdbk'
- * '<S139>' : 'trajGen/Subsystem/Z/Sum'
- * '<S140>' : 'trajGen/Subsystem/Z/Sum Fdbk'
- * '<S141>' : 'trajGen/Subsystem/Z/Tracking Mode'
- * '<S142>' : 'trajGen/Subsystem/Z/Tracking Mode Sum'
- * '<S143>' : 'trajGen/Subsystem/Z/Tsamp - Integral'
- * '<S144>' : 'trajGen/Subsystem/Z/Tsamp - Ngain'
- * '<S145>' : 'trajGen/Subsystem/Z/postSat Signal'
- * '<S146>' : 'trajGen/Subsystem/Z/preInt Signal'
- * '<S147>' : 'trajGen/Subsystem/Z/preSat Signal'
- * '<S148>' : 'trajGen/Subsystem/Z/Anti-windup/Passthrough'
- * '<S149>' : 'trajGen/Subsystem/Z/D Gain/Internal Parameters'
- * '<S150>' : 'trajGen/Subsystem/Z/External Derivative/Error'
- * '<S151>' : 'trajGen/Subsystem/Z/Filter/Disc. Forward Euler Filter'
- * '<S152>' : 'trajGen/Subsystem/Z/Filter ICs/Internal IC - Filter'
- * '<S153>' : 'trajGen/Subsystem/Z/I Gain/Internal Parameters'
- * '<S154>' : 'trajGen/Subsystem/Z/Ideal P Gain/Passthrough'
- * '<S155>' : 'trajGen/Subsystem/Z/Ideal P Gain Fdbk/Disabled'
- * '<S156>' : 'trajGen/Subsystem/Z/Integrator/Discrete'
- * '<S157>' : 'trajGen/Subsystem/Z/Integrator ICs/Internal IC'
- * '<S158>' : 'trajGen/Subsystem/Z/N Copy/Disabled'
- * '<S159>' : 'trajGen/Subsystem/Z/N Gain/Internal Parameters'
- * '<S160>' : 'trajGen/Subsystem/Z/P Copy/Disabled'
- * '<S161>' : 'trajGen/Subsystem/Z/Parallel P Gain/Internal Parameters'
- * '<S162>' : 'trajGen/Subsystem/Z/Reset Signal/Disabled'
- * '<S163>' : 'trajGen/Subsystem/Z/Saturation/Passthrough'
- * '<S164>' : 'trajGen/Subsystem/Z/Saturation Fdbk/Disabled'
- * '<S165>' : 'trajGen/Subsystem/Z/Sum/Sum_PID'
- * '<S166>' : 'trajGen/Subsystem/Z/Sum Fdbk/Disabled'
- * '<S167>' : 'trajGen/Subsystem/Z/Tracking Mode/Disabled'
- * '<S168>' : 'trajGen/Subsystem/Z/Tracking Mode Sum/Passthrough'
- * '<S169>' : 'trajGen/Subsystem/Z/Tsamp - Integral/External Ts'
- * '<S170>' : 'trajGen/Subsystem/Z/Tsamp - Ngain/External Ts'
- * '<S171>' : 'trajGen/Subsystem/Z/postSat Signal/Forward_Path'
- * '<S172>' : 'trajGen/Subsystem/Z/preInt Signal/Internal PreInt'
- * '<S173>' : 'trajGen/Subsystem/Z/preSat Signal/Forward_Path'
- * '<S174>' : 'trajGen/position reading/Enabled Subsystem'
+ * '<S15>'  : 'trajGen/Subsystem/MATLAB Function2'
+ * '<S16>'  : 'trajGen/Subsystem/X'
+ * '<S17>'  : 'trajGen/Subsystem/Y'
+ * '<S18>'  : 'trajGen/Subsystem/Z'
+ * '<S19>'  : 'trajGen/Subsystem/X/Anti-windup'
+ * '<S20>'  : 'trajGen/Subsystem/X/D Gain'
+ * '<S21>'  : 'trajGen/Subsystem/X/External Derivative'
+ * '<S22>'  : 'trajGen/Subsystem/X/Filter'
+ * '<S23>'  : 'trajGen/Subsystem/X/Filter ICs'
+ * '<S24>'  : 'trajGen/Subsystem/X/I Gain'
+ * '<S25>'  : 'trajGen/Subsystem/X/Ideal P Gain'
+ * '<S26>'  : 'trajGen/Subsystem/X/Ideal P Gain Fdbk'
+ * '<S27>'  : 'trajGen/Subsystem/X/Integrator'
+ * '<S28>'  : 'trajGen/Subsystem/X/Integrator ICs'
+ * '<S29>'  : 'trajGen/Subsystem/X/N Copy'
+ * '<S30>'  : 'trajGen/Subsystem/X/N Gain'
+ * '<S31>'  : 'trajGen/Subsystem/X/P Copy'
+ * '<S32>'  : 'trajGen/Subsystem/X/Parallel P Gain'
+ * '<S33>'  : 'trajGen/Subsystem/X/Reset Signal'
+ * '<S34>'  : 'trajGen/Subsystem/X/Saturation'
+ * '<S35>'  : 'trajGen/Subsystem/X/Saturation Fdbk'
+ * '<S36>'  : 'trajGen/Subsystem/X/Sum'
+ * '<S37>'  : 'trajGen/Subsystem/X/Sum Fdbk'
+ * '<S38>'  : 'trajGen/Subsystem/X/Tracking Mode'
+ * '<S39>'  : 'trajGen/Subsystem/X/Tracking Mode Sum'
+ * '<S40>'  : 'trajGen/Subsystem/X/Tsamp - Integral'
+ * '<S41>'  : 'trajGen/Subsystem/X/Tsamp - Ngain'
+ * '<S42>'  : 'trajGen/Subsystem/X/postSat Signal'
+ * '<S43>'  : 'trajGen/Subsystem/X/preInt Signal'
+ * '<S44>'  : 'trajGen/Subsystem/X/preSat Signal'
+ * '<S45>'  : 'trajGen/Subsystem/X/Anti-windup/Passthrough'
+ * '<S46>'  : 'trajGen/Subsystem/X/D Gain/Internal Parameters'
+ * '<S47>'  : 'trajGen/Subsystem/X/External Derivative/Error'
+ * '<S48>'  : 'trajGen/Subsystem/X/Filter/Disc. Forward Euler Filter'
+ * '<S49>'  : 'trajGen/Subsystem/X/Filter ICs/Internal IC - Filter'
+ * '<S50>'  : 'trajGen/Subsystem/X/I Gain/Internal Parameters'
+ * '<S51>'  : 'trajGen/Subsystem/X/Ideal P Gain/Passthrough'
+ * '<S52>'  : 'trajGen/Subsystem/X/Ideal P Gain Fdbk/Disabled'
+ * '<S53>'  : 'trajGen/Subsystem/X/Integrator/Discrete'
+ * '<S54>'  : 'trajGen/Subsystem/X/Integrator ICs/Internal IC'
+ * '<S55>'  : 'trajGen/Subsystem/X/N Copy/Disabled'
+ * '<S56>'  : 'trajGen/Subsystem/X/N Gain/Internal Parameters'
+ * '<S57>'  : 'trajGen/Subsystem/X/P Copy/Disabled'
+ * '<S58>'  : 'trajGen/Subsystem/X/Parallel P Gain/Internal Parameters'
+ * '<S59>'  : 'trajGen/Subsystem/X/Reset Signal/Disabled'
+ * '<S60>'  : 'trajGen/Subsystem/X/Saturation/Passthrough'
+ * '<S61>'  : 'trajGen/Subsystem/X/Saturation Fdbk/Disabled'
+ * '<S62>'  : 'trajGen/Subsystem/X/Sum/Sum_PID'
+ * '<S63>'  : 'trajGen/Subsystem/X/Sum Fdbk/Disabled'
+ * '<S64>'  : 'trajGen/Subsystem/X/Tracking Mode/Disabled'
+ * '<S65>'  : 'trajGen/Subsystem/X/Tracking Mode Sum/Passthrough'
+ * '<S66>'  : 'trajGen/Subsystem/X/Tsamp - Integral/External Ts'
+ * '<S67>'  : 'trajGen/Subsystem/X/Tsamp - Ngain/External Ts'
+ * '<S68>'  : 'trajGen/Subsystem/X/postSat Signal/Forward_Path'
+ * '<S69>'  : 'trajGen/Subsystem/X/preInt Signal/Internal PreInt'
+ * '<S70>'  : 'trajGen/Subsystem/X/preSat Signal/Forward_Path'
+ * '<S71>'  : 'trajGen/Subsystem/Y/Anti-windup'
+ * '<S72>'  : 'trajGen/Subsystem/Y/D Gain'
+ * '<S73>'  : 'trajGen/Subsystem/Y/External Derivative'
+ * '<S74>'  : 'trajGen/Subsystem/Y/Filter'
+ * '<S75>'  : 'trajGen/Subsystem/Y/Filter ICs'
+ * '<S76>'  : 'trajGen/Subsystem/Y/I Gain'
+ * '<S77>'  : 'trajGen/Subsystem/Y/Ideal P Gain'
+ * '<S78>'  : 'trajGen/Subsystem/Y/Ideal P Gain Fdbk'
+ * '<S79>'  : 'trajGen/Subsystem/Y/Integrator'
+ * '<S80>'  : 'trajGen/Subsystem/Y/Integrator ICs'
+ * '<S81>'  : 'trajGen/Subsystem/Y/N Copy'
+ * '<S82>'  : 'trajGen/Subsystem/Y/N Gain'
+ * '<S83>'  : 'trajGen/Subsystem/Y/P Copy'
+ * '<S84>'  : 'trajGen/Subsystem/Y/Parallel P Gain'
+ * '<S85>'  : 'trajGen/Subsystem/Y/Reset Signal'
+ * '<S86>'  : 'trajGen/Subsystem/Y/Saturation'
+ * '<S87>'  : 'trajGen/Subsystem/Y/Saturation Fdbk'
+ * '<S88>'  : 'trajGen/Subsystem/Y/Sum'
+ * '<S89>'  : 'trajGen/Subsystem/Y/Sum Fdbk'
+ * '<S90>'  : 'trajGen/Subsystem/Y/Tracking Mode'
+ * '<S91>'  : 'trajGen/Subsystem/Y/Tracking Mode Sum'
+ * '<S92>'  : 'trajGen/Subsystem/Y/Tsamp - Integral'
+ * '<S93>'  : 'trajGen/Subsystem/Y/Tsamp - Ngain'
+ * '<S94>'  : 'trajGen/Subsystem/Y/postSat Signal'
+ * '<S95>'  : 'trajGen/Subsystem/Y/preInt Signal'
+ * '<S96>'  : 'trajGen/Subsystem/Y/preSat Signal'
+ * '<S97>'  : 'trajGen/Subsystem/Y/Anti-windup/Passthrough'
+ * '<S98>'  : 'trajGen/Subsystem/Y/D Gain/Internal Parameters'
+ * '<S99>'  : 'trajGen/Subsystem/Y/External Derivative/Error'
+ * '<S100>' : 'trajGen/Subsystem/Y/Filter/Disc. Forward Euler Filter'
+ * '<S101>' : 'trajGen/Subsystem/Y/Filter ICs/Internal IC - Filter'
+ * '<S102>' : 'trajGen/Subsystem/Y/I Gain/Internal Parameters'
+ * '<S103>' : 'trajGen/Subsystem/Y/Ideal P Gain/Passthrough'
+ * '<S104>' : 'trajGen/Subsystem/Y/Ideal P Gain Fdbk/Disabled'
+ * '<S105>' : 'trajGen/Subsystem/Y/Integrator/Discrete'
+ * '<S106>' : 'trajGen/Subsystem/Y/Integrator ICs/Internal IC'
+ * '<S107>' : 'trajGen/Subsystem/Y/N Copy/Disabled'
+ * '<S108>' : 'trajGen/Subsystem/Y/N Gain/Internal Parameters'
+ * '<S109>' : 'trajGen/Subsystem/Y/P Copy/Disabled'
+ * '<S110>' : 'trajGen/Subsystem/Y/Parallel P Gain/Internal Parameters'
+ * '<S111>' : 'trajGen/Subsystem/Y/Reset Signal/Disabled'
+ * '<S112>' : 'trajGen/Subsystem/Y/Saturation/Passthrough'
+ * '<S113>' : 'trajGen/Subsystem/Y/Saturation Fdbk/Disabled'
+ * '<S114>' : 'trajGen/Subsystem/Y/Sum/Sum_PID'
+ * '<S115>' : 'trajGen/Subsystem/Y/Sum Fdbk/Disabled'
+ * '<S116>' : 'trajGen/Subsystem/Y/Tracking Mode/Disabled'
+ * '<S117>' : 'trajGen/Subsystem/Y/Tracking Mode Sum/Passthrough'
+ * '<S118>' : 'trajGen/Subsystem/Y/Tsamp - Integral/External Ts'
+ * '<S119>' : 'trajGen/Subsystem/Y/Tsamp - Ngain/External Ts'
+ * '<S120>' : 'trajGen/Subsystem/Y/postSat Signal/Forward_Path'
+ * '<S121>' : 'trajGen/Subsystem/Y/preInt Signal/Internal PreInt'
+ * '<S122>' : 'trajGen/Subsystem/Y/preSat Signal/Forward_Path'
+ * '<S123>' : 'trajGen/Subsystem/Z/Anti-windup'
+ * '<S124>' : 'trajGen/Subsystem/Z/D Gain'
+ * '<S125>' : 'trajGen/Subsystem/Z/External Derivative'
+ * '<S126>' : 'trajGen/Subsystem/Z/Filter'
+ * '<S127>' : 'trajGen/Subsystem/Z/Filter ICs'
+ * '<S128>' : 'trajGen/Subsystem/Z/I Gain'
+ * '<S129>' : 'trajGen/Subsystem/Z/Ideal P Gain'
+ * '<S130>' : 'trajGen/Subsystem/Z/Ideal P Gain Fdbk'
+ * '<S131>' : 'trajGen/Subsystem/Z/Integrator'
+ * '<S132>' : 'trajGen/Subsystem/Z/Integrator ICs'
+ * '<S133>' : 'trajGen/Subsystem/Z/N Copy'
+ * '<S134>' : 'trajGen/Subsystem/Z/N Gain'
+ * '<S135>' : 'trajGen/Subsystem/Z/P Copy'
+ * '<S136>' : 'trajGen/Subsystem/Z/Parallel P Gain'
+ * '<S137>' : 'trajGen/Subsystem/Z/Reset Signal'
+ * '<S138>' : 'trajGen/Subsystem/Z/Saturation'
+ * '<S139>' : 'trajGen/Subsystem/Z/Saturation Fdbk'
+ * '<S140>' : 'trajGen/Subsystem/Z/Sum'
+ * '<S141>' : 'trajGen/Subsystem/Z/Sum Fdbk'
+ * '<S142>' : 'trajGen/Subsystem/Z/Tracking Mode'
+ * '<S143>' : 'trajGen/Subsystem/Z/Tracking Mode Sum'
+ * '<S144>' : 'trajGen/Subsystem/Z/Tsamp - Integral'
+ * '<S145>' : 'trajGen/Subsystem/Z/Tsamp - Ngain'
+ * '<S146>' : 'trajGen/Subsystem/Z/postSat Signal'
+ * '<S147>' : 'trajGen/Subsystem/Z/preInt Signal'
+ * '<S148>' : 'trajGen/Subsystem/Z/preSat Signal'
+ * '<S149>' : 'trajGen/Subsystem/Z/Anti-windup/Passthrough'
+ * '<S150>' : 'trajGen/Subsystem/Z/D Gain/Internal Parameters'
+ * '<S151>' : 'trajGen/Subsystem/Z/External Derivative/Error'
+ * '<S152>' : 'trajGen/Subsystem/Z/Filter/Disc. Forward Euler Filter'
+ * '<S153>' : 'trajGen/Subsystem/Z/Filter ICs/Internal IC - Filter'
+ * '<S154>' : 'trajGen/Subsystem/Z/I Gain/Internal Parameters'
+ * '<S155>' : 'trajGen/Subsystem/Z/Ideal P Gain/Passthrough'
+ * '<S156>' : 'trajGen/Subsystem/Z/Ideal P Gain Fdbk/Disabled'
+ * '<S157>' : 'trajGen/Subsystem/Z/Integrator/Discrete'
+ * '<S158>' : 'trajGen/Subsystem/Z/Integrator ICs/Internal IC'
+ * '<S159>' : 'trajGen/Subsystem/Z/N Copy/Disabled'
+ * '<S160>' : 'trajGen/Subsystem/Z/N Gain/Internal Parameters'
+ * '<S161>' : 'trajGen/Subsystem/Z/P Copy/Disabled'
+ * '<S162>' : 'trajGen/Subsystem/Z/Parallel P Gain/Internal Parameters'
+ * '<S163>' : 'trajGen/Subsystem/Z/Reset Signal/Disabled'
+ * '<S164>' : 'trajGen/Subsystem/Z/Saturation/Passthrough'
+ * '<S165>' : 'trajGen/Subsystem/Z/Saturation Fdbk/Disabled'
+ * '<S166>' : 'trajGen/Subsystem/Z/Sum/Sum_PID'
+ * '<S167>' : 'trajGen/Subsystem/Z/Sum Fdbk/Disabled'
+ * '<S168>' : 'trajGen/Subsystem/Z/Tracking Mode/Disabled'
+ * '<S169>' : 'trajGen/Subsystem/Z/Tracking Mode Sum/Passthrough'
+ * '<S170>' : 'trajGen/Subsystem/Z/Tsamp - Integral/External Ts'
+ * '<S171>' : 'trajGen/Subsystem/Z/Tsamp - Ngain/External Ts'
+ * '<S172>' : 'trajGen/Subsystem/Z/postSat Signal/Forward_Path'
+ * '<S173>' : 'trajGen/Subsystem/Z/preInt Signal/Internal PreInt'
+ * '<S174>' : 'trajGen/Subsystem/Z/preSat Signal/Forward_Path'
+ * '<S175>' : 'trajGen/position reading/Enabled Subsystem'
  */
 #endif                                 /* trajGen_h_ */

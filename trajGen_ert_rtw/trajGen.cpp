@@ -7,9 +7,9 @@
  *
  * Code generation for model "trajGen".
  *
- * Model version              : 1.22
+ * Model version              : 1.23
  * Simulink Coder version : 24.2 (R2024b) 21-Jun-2024
- * C++ source code generated on : Fri Nov 21 03:30:20 2025
+ * C++ source code generated on : Mon Nov 24 01:02:36 2025
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -26,6 +26,7 @@
 #include <cmath>
 #include "trajGen_private.h"
 #include "cmath"
+#include "rt_defines.h"
 
 /* Block signals (default storage) */
 B_trajGen_T trajGen_B;
@@ -1906,6 +1907,42 @@ static void trajGen_binary_expand_op(real_T in1[2], const
   /* End of Outputs for SubSystem: '<Root>/Subsystem' */
 }
 
+real_T rt_atan2d_snf(real_T u0, real_T u1)
+{
+  real_T y;
+  if (std::isnan(u0) || std::isnan(u1)) {
+    y = (rtNaN);
+  } else if (std::isinf(u0) && std::isinf(u1)) {
+    int32_T tmp;
+    int32_T tmp_0;
+    if (u0 > 0.0) {
+      tmp = 1;
+    } else {
+      tmp = -1;
+    }
+
+    if (u1 > 0.0) {
+      tmp_0 = 1;
+    } else {
+      tmp_0 = -1;
+    }
+
+    y = std::atan2(static_cast<real_T>(tmp), static_cast<real_T>(tmp_0));
+  } else if (u1 == 0.0) {
+    if (u0 > 0.0) {
+      y = RT_PI / 2.0;
+    } else if (u0 < 0.0) {
+      y = -(RT_PI / 2.0);
+    } else {
+      y = 0.0;
+    }
+  } else {
+    y = std::atan2(u0, u1);
+  }
+
+  return y;
+}
+
 /* Model step function */
 void trajGen_step(void)
 {
@@ -1970,11 +2007,11 @@ void trajGen_step(void)
     (&trajGen_B.rtb_SourceBlock_o2_c);
 
   /* Outputs for Enabled SubSystem: '<S9>/Enabled Subsystem' incorporates:
-   *  EnablePort: '<S174>/Enable'
+   *  EnablePort: '<S175>/Enable'
    */
   /* Start for MATLABSystem: '<S9>/SourceBlock' */
   if (b_varargout_1) {
-    /* SignalConversion generated from: '<S174>/In1' */
+    /* SignalConversion generated from: '<S175>/In1' */
     trajGen_B.In1 = trajGen_B.rtb_SourceBlock_o2_c;
   }
 
@@ -2221,71 +2258,117 @@ void trajGen_step(void)
       trajGen_DW.obj.PrevJerkBC[trajGen_B.b_k] = 0.0;
     }
 
+    /* MATLABSystem: '<S7>/Coordinate Transformation Conversion' incorporates:
+     *  SignalConversion generated from: '<S7>/Vector Concatenate'
+     * */
+    trajGen_B.t = 1.0 / std::sqrt(((trajGen_B.In1.Pose.Pose.Orientation.W *
+      trajGen_B.In1.Pose.Pose.Orientation.W +
+      trajGen_B.In1.Pose.Pose.Orientation.X *
+      trajGen_B.In1.Pose.Pose.Orientation.X) +
+      trajGen_B.In1.Pose.Pose.Orientation.Y *
+      trajGen_B.In1.Pose.Pose.Orientation.Y) +
+      trajGen_B.In1.Pose.Pose.Orientation.Z *
+      trajGen_B.In1.Pose.Pose.Orientation.Z);
+    trajGen_B.delT = trajGen_B.In1.Pose.Pose.Orientation.W * trajGen_B.t;
+    trajGen_B.scale = trajGen_B.In1.Pose.Pose.Orientation.X * trajGen_B.t;
+    trajGen_B.absxk = trajGen_B.In1.Pose.Pose.Orientation.Y * trajGen_B.t;
+    trajGen_B.t *= trajGen_B.In1.Pose.Pose.Orientation.Z;
+    trajGen_B.UngainTsProdOut_h = trajGen_B.scale * trajGen_B.t * 2.0 -
+      trajGen_B.delT * trajGen_B.absxk * 2.0;
+    if (trajGen_B.UngainTsProdOut_h > 1.0) {
+      trajGen_B.UngainTsProdOut_h = 1.0;
+    }
+
+    if (trajGen_B.UngainTsProdOut_h < -1.0) {
+      trajGen_B.UngainTsProdOut_h = -1.0;
+    }
+
+    if ((trajGen_B.UngainTsProdOut_h < 0.0) && (std::abs
+         (trajGen_B.UngainTsProdOut_h + 1.0) < 2.2204460492503131E-15)) {
+      trajGen_B.delT = -2.0 * rt_atan2d_snf(trajGen_B.scale, trajGen_B.delT);
+    } else if ((trajGen_B.UngainTsProdOut_h > 0.0) && (std::abs
+                (trajGen_B.UngainTsProdOut_h - 1.0) < 2.2204460492503131E-15)) {
+      trajGen_B.delT = 2.0 * rt_atan2d_snf(trajGen_B.scale, trajGen_B.delT);
+    } else {
+      trajGen_B.delT = rt_atan2d_snf(trajGen_B.delT * trajGen_B.t * 2.0 +
+        trajGen_B.scale * trajGen_B.absxk * 2.0, (trajGen_B.delT *
+        trajGen_B.delT * 2.0 - 1.0) + trajGen_B.scale * trajGen_B.scale * 2.0);
+    }
+
     /* Sum: '<S7>/Sum' incorporates:
      *  MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory'
      */
-    trajGen_B.delT = trajGen_B.Transpose1[0] -
+    trajGen_B.scale = trajGen_B.Transpose1[0] -
       trajGen_B.In1.Pose.Pose.Position.X;
-
-    /* Gain: '<S55>/Filter Coefficient' incorporates:
-     *  DiscreteIntegrator: '<S47>/Filter'
-     *  Gain: '<S45>/Derivative Gain'
-     *  Sum: '<S47>/SumD'
-     */
-    trajGen_B.scale = (0.08 * trajGen_B.delT - trajGen_DW.Filter_DSTATE) * 3.0;
-
-    /* Sum: '<S61>/Sum' incorporates:
-     *  DiscreteIntegrator: '<S52>/Integrator'
-     *  Gain: '<S57>/Proportional Gain'
-     */
-    trajGen_B.Sum = (0.7 * trajGen_B.delT + trajGen_DW.Integrator_DSTATE) +
-      trajGen_B.scale;
-
-    /* Product: '<S66>/Ungain*Ts Prod Out' */
-    trajGen_B.absxk = trajGen_B.scale * 0.0;
 
     /* Sum: '<S7>/Sum1' incorporates:
      *  MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory'
      */
-    trajGen_B.scale = trajGen_B.Transpose1[1] -
+    trajGen_B.absxk = trajGen_B.Transpose1[1] -
       trajGen_B.In1.Pose.Pose.Position.Y;
 
-    /* Gain: '<S107>/Filter Coefficient' incorporates:
-     *  DiscreteIntegrator: '<S99>/Filter'
-     *  Gain: '<S97>/Derivative Gain'
-     *  Sum: '<S99>/SumD'
-     */
-    trajGen_B.t = (0.08 * trajGen_B.scale - trajGen_DW.Filter_DSTATE_a) * 3.0;
+    /* MATLAB Function: '<S7>/MATLAB Function2' incorporates:
+     *  MATLABSystem: '<S7>/Coordinate Transformation Conversion'
+     * */
+    trajGen_B.t = std::sin(-trajGen_B.delT);
+    trajGen_B.UngainTsProdOut_h = std::cos(-trajGen_B.delT);
+    trajGen_B.delT = trajGen_B.UngainTsProdOut_h * trajGen_B.scale - trajGen_B.t
+      * trajGen_B.absxk;
+    trajGen_B.scale = trajGen_B.t * trajGen_B.scale +
+      trajGen_B.UngainTsProdOut_h * trajGen_B.absxk;
 
-    /* Sum: '<S113>/Sum' incorporates:
-     *  DiscreteIntegrator: '<S104>/Integrator'
-     *  Gain: '<S109>/Proportional Gain'
+    /* Gain: '<S108>/Filter Coefficient' incorporates:
+     *  DiscreteIntegrator: '<S100>/Filter'
+     *  Gain: '<S98>/Derivative Gain'
+     *  Sum: '<S100>/SumD'
      */
-    trajGen_B.Sum_n = (0.7 * trajGen_B.scale + trajGen_DW.Integrator_DSTATE_o) +
+    trajGen_B.absxk = (0.08 * trajGen_B.scale - trajGen_DW.Filter_DSTATE) * 3.0;
+
+    /* Gain: '<S7>/Gain1' incorporates:
+     *  DiscreteIntegrator: '<S105>/Integrator'
+     *  Gain: '<S110>/Proportional Gain'
+     *  Sum: '<S114>/Sum'
+     */
+    trajGen_B.Gain1 = -((0.7 * trajGen_B.scale + trajGen_DW.Integrator_DSTATE) +
+                        trajGen_B.absxk);
+
+    /* Gain: '<S56>/Filter Coefficient' incorporates:
+     *  DiscreteIntegrator: '<S48>/Filter'
+     *  Gain: '<S46>/Derivative Gain'
+     *  Sum: '<S48>/SumD'
+     */
+    trajGen_B.t = (0.08 * trajGen_B.delT - trajGen_DW.Filter_DSTATE_j) * 3.0;
+
+    /* Sum: '<S62>/Sum' incorporates:
+     *  DiscreteIntegrator: '<S53>/Integrator'
+     *  Gain: '<S58>/Proportional Gain'
+     */
+    trajGen_B.Sum = (0.7 * trajGen_B.delT + trajGen_DW.Integrator_DSTATE_h) +
       trajGen_B.t;
 
-    /* Product: '<S118>/Ungain*Ts Prod Out' */
-    trajGen_B.UngainTsProdOut_j = trajGen_B.t * 0.0;
+    /* Product: '<S67>/Ungain*Ts Prod Out' */
+    trajGen_B.UngainTsProdOut_h = trajGen_B.t * 0.0;
 
     /* Sum: '<S7>/Sum2' incorporates:
      *  MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory'
      */
     trajGen_B.t = trajGen_B.Transpose1[2] - trajGen_B.In1.Pose.Pose.Position.Z;
 
-    /* Gain: '<S159>/Filter Coefficient' incorporates:
-     *  DiscreteIntegrator: '<S151>/Filter'
-     *  Gain: '<S149>/Derivative Gain'
-     *  Sum: '<S151>/SumD'
+    /* Gain: '<S160>/Filter Coefficient' incorporates:
+     *  DiscreteIntegrator: '<S152>/Filter'
+     *  Gain: '<S150>/Derivative Gain'
+     *  Sum: '<S152>/SumD'
      */
     trajGen_B.FilterCoefficient = (0.08 * trajGen_B.t -
       trajGen_DW.Filter_DSTATE_b) * 3.0;
 
-    /* Sum: '<S165>/Sum' incorporates:
-     *  DiscreteIntegrator: '<S156>/Integrator'
-     *  Gain: '<S161>/Proportional Gain'
+    /* Gain: '<S7>/Gain2' incorporates:
+     *  DiscreteIntegrator: '<S157>/Integrator'
+     *  Gain: '<S162>/Proportional Gain'
+     *  Sum: '<S166>/Sum'
      */
-    trajGen_B.Sum_b = (0.7 * trajGen_B.t + trajGen_DW.Integrator_DSTATE_h) +
-      trajGen_B.FilterCoefficient;
+    trajGen_B.Gain2 = -((0.7 * trajGen_B.t + trajGen_DW.Integrator_DSTATE_hi) +
+                        trajGen_B.FilterCoefficient);
 
     /* Update for DiscreteIntegrator: '<S7>/Discrete-Time Integrator' incorporates:
      *  Constant: '<S7>/Constant1'
@@ -2294,49 +2377,51 @@ void trajGen_step(void)
     trajGen_DW.DiscreteTimeIntegrator_PrevRese = static_cast<int8_T>
       (rtb_FixPtRelationalOperator);
 
-    /* Update for DiscreteIntegrator: '<S47>/Filter' */
-    trajGen_DW.Filter_DSTATE += trajGen_B.absxk;
-
-    /* Update for DiscreteIntegrator: '<S52>/Integrator' incorporates:
-     *  Gain: '<S49>/Integral Gain'
-     *  Product: '<S65>/Uintegral*Ts Prod Out'
+    /* Update for DiscreteIntegrator: '<S105>/Integrator' incorporates:
+     *  Gain: '<S102>/Integral Gain'
+     *  Product: '<S118>/Uintegral*Ts Prod Out'
      */
-    trajGen_DW.Integrator_DSTATE += 0.0 * trajGen_B.delT * 0.0;
+    trajGen_DW.Integrator_DSTATE += 0.0 * trajGen_B.scale * 0.0;
 
-    /* Update for DiscreteIntegrator: '<S99>/Filter' */
-    trajGen_DW.Filter_DSTATE_a += trajGen_B.UngainTsProdOut_j;
-
-    /* Update for DiscreteIntegrator: '<S104>/Integrator' incorporates:
-     *  Gain: '<S101>/Integral Gain'
-     *  Product: '<S117>/Uintegral*Ts Prod Out'
+    /* Update for DiscreteIntegrator: '<S100>/Filter' incorporates:
+     *  Product: '<S119>/Ungain*Ts Prod Out'
      */
-    trajGen_DW.Integrator_DSTATE_o += 0.0 * trajGen_B.scale * 0.0;
+    trajGen_DW.Filter_DSTATE += trajGen_B.absxk * 0.0;
 
-    /* Update for DiscreteIntegrator: '<S151>/Filter' incorporates:
-     *  Product: '<S170>/Ungain*Ts Prod Out'
+    /* Update for DiscreteIntegrator: '<S48>/Filter' */
+    trajGen_DW.Filter_DSTATE_j += trajGen_B.UngainTsProdOut_h;
+
+    /* Update for DiscreteIntegrator: '<S53>/Integrator' incorporates:
+     *  Gain: '<S50>/Integral Gain'
+     *  Product: '<S66>/Uintegral*Ts Prod Out'
+     */
+    trajGen_DW.Integrator_DSTATE_h += 0.0 * trajGen_B.delT * 0.0;
+
+    /* Update for DiscreteIntegrator: '<S157>/Integrator' incorporates:
+     *  Gain: '<S154>/Integral Gain'
+     *  Product: '<S170>/Uintegral*Ts Prod Out'
+     */
+    trajGen_DW.Integrator_DSTATE_hi += 0.0 * trajGen_B.t * 0.0;
+
+    /* Update for DiscreteIntegrator: '<S152>/Filter' incorporates:
+     *  Product: '<S171>/Ungain*Ts Prod Out'
      */
     trajGen_DW.Filter_DSTATE_b += trajGen_B.FilterCoefficient * 0.0;
-
-    /* Update for DiscreteIntegrator: '<S156>/Integrator' incorporates:
-     *  Gain: '<S153>/Integral Gain'
-     *  Product: '<S169>/Uintegral*Ts Prod Out'
-     */
-    trajGen_DW.Integrator_DSTATE_h += 0.0 * trajGen_B.t * 0.0;
   } else if (trajGen_DW.Subsystem_MODE) {
-    /* Disable for Sum: '<S61>/Sum' incorporates:
+    /* Disable for Sum: '<S62>/Sum' incorporates:
      *  Outport: '<S7>/x'
      */
     trajGen_B.Sum = 0.0;
 
-    /* Disable for Sum: '<S113>/Sum' incorporates:
+    /* Disable for Gain: '<S7>/Gain1' incorporates:
      *  Outport: '<S7>/y'
      */
-    trajGen_B.Sum_n = 0.0;
+    trajGen_B.Gain1 = 0.0;
 
-    /* Disable for Sum: '<S165>/Sum' incorporates:
+    /* Disable for Gain: '<S7>/Gain2' incorporates:
      *  Outport: '<S7>/z'
      */
-    trajGen_B.Sum_b = 0.0;
+    trajGen_B.Gain2 = 0.0;
     trajGen_DW.Subsystem_MODE = false;
   }
 
@@ -2353,8 +2438,8 @@ void trajGen_step(void)
 
   /* BusAssignment: '<Root>/Bus Assignment' */
   trajGen_B.BusAssignment.Linear.X = trajGen_B.Sum;
-  trajGen_B.BusAssignment.Linear.Y = trajGen_B.Sum_n;
-  trajGen_B.BusAssignment.Linear.Z = trajGen_B.Sum_b;
+  trajGen_B.BusAssignment.Linear.Y = trajGen_B.Gain1;
+  trajGen_B.BusAssignment.Linear.Z = trajGen_B.Gain2;
 
   /* Outputs for Atomic SubSystem: '<Root>/Publish' */
   /* MATLABSystem: '<S3>/SinkBlock' */
@@ -2475,12 +2560,17 @@ void trajGen_initialize(void)
     trajG_MinJerkPolyTraj_setupImpl(&trajGen_DW.obj, trajGen_B.dv1, tmp);
 
     /* End of Start for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
+
+    /* Start for MATLABSystem: '<S7>/Coordinate Transformation Conversion' */
+    trajGen_DW.objisempty_b = true;
+    trajGen_DW.obj_f.isInitialized = 1;
+
     /* End of Start for SubSystem: '<Root>/Subsystem' */
 
     /* Start for Atomic SubSystem: '<Root>/Publish1' */
     /* Start for MATLABSystem: '<S4>/SinkBlock' */
     trajGen_DW.obj_b.matlabCodegenIsDeleted = false;
-    trajGen_DW.objisempty_b = true;
+    trajGen_DW.objisempty_bt = true;
     trajGen_DW.obj_b.isInitialized = 1;
     for (i = 0; i < 16; i++) {
       trajGen_B.b_zeroDelimTopic_p[i] = b_zeroDelimTopic_3[i];
@@ -2522,23 +2612,23 @@ void trajGen_initialize(void)
   trajGen_DW.DiscreteTimeIntegrator_DSTATE = 0.0;
   trajGen_DW.DiscreteTimeIntegrator_PrevRese = 2;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S47>/Filter' */
-  trajGen_DW.Filter_DSTATE = 0.0;
-
-  /* InitializeConditions for DiscreteIntegrator: '<S52>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S105>/Integrator' */
   trajGen_DW.Integrator_DSTATE = 0.0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S99>/Filter' */
-  trajGen_DW.Filter_DSTATE_a = 0.0;
+  /* InitializeConditions for DiscreteIntegrator: '<S100>/Filter' */
+  trajGen_DW.Filter_DSTATE = 0.0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S104>/Integrator' */
-  trajGen_DW.Integrator_DSTATE_o = 0.0;
+  /* InitializeConditions for DiscreteIntegrator: '<S48>/Filter' */
+  trajGen_DW.Filter_DSTATE_j = 0.0;
 
-  /* InitializeConditions for DiscreteIntegrator: '<S151>/Filter' */
-  trajGen_DW.Filter_DSTATE_b = 0.0;
-
-  /* InitializeConditions for DiscreteIntegrator: '<S156>/Integrator' */
+  /* InitializeConditions for DiscreteIntegrator: '<S53>/Integrator' */
   trajGen_DW.Integrator_DSTATE_h = 0.0;
+
+  /* InitializeConditions for DiscreteIntegrator: '<S157>/Integrator' */
+  trajGen_DW.Integrator_DSTATE_hi = 0.0;
+
+  /* InitializeConditions for DiscreteIntegrator: '<S152>/Filter' */
+  trajGen_DW.Filter_DSTATE_b = 0.0;
 
   /* SystemInitialize for MATLAB Function: '<S7>/MATLAB Function1' */
   trajGen_DW.startPosition_not_empty = false;
@@ -2546,27 +2636,27 @@ void trajGen_initialize(void)
   /* InitializeConditions for MATLABSystem: '<S7>/Minimum Jerk Polynomial Trajectory' */
   trajGen_DW.obj.StartFlag = true;
 
-  /* SystemInitialize for Sum: '<S61>/Sum' incorporates:
+  /* SystemInitialize for Sum: '<S62>/Sum' incorporates:
    *  Outport: '<S7>/x'
    */
   trajGen_B.Sum = 0.0;
 
-  /* SystemInitialize for Sum: '<S113>/Sum' incorporates:
+  /* SystemInitialize for Gain: '<S7>/Gain1' incorporates:
    *  Outport: '<S7>/y'
    */
-  trajGen_B.Sum_n = 0.0;
+  trajGen_B.Gain1 = 0.0;
 
-  /* SystemInitialize for Sum: '<S165>/Sum' incorporates:
+  /* SystemInitialize for Gain: '<S7>/Gain2' incorporates:
    *  Outport: '<S7>/z'
    */
-  trajGen_B.Sum_b = 0.0;
+  trajGen_B.Gain2 = 0.0;
 
   /* SystemInitialize for Outport: '<S7>/distance' */
   trajGen_B.distanceToGoal = 0.0;
 
   /* End of SystemInitialize for SubSystem: '<Root>/Subsystem' */
 
-  /* SystemInitialize for SignalConversion generated from: '<S174>/In1' */
+  /* SystemInitialize for SignalConversion generated from: '<S175>/In1' */
   std::memset(&trajGen_B.In1, 0, sizeof(SL_Bus_trajGen_nav_msgs_Odometry));
 }
 
