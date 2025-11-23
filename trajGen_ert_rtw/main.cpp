@@ -5,7 +5,7 @@
 //
 // Model version                  : 1.23
 // Simulink Coder version         : 24.2 (R2024b) 21-Jun-2024
-// C/C++ source code generated on : Mon Nov 24 01:02:44 2025
+// C/C++ source code generated on : Mon Nov 24 01:08:16 2025
 //
 
 #include <stdio.h>
