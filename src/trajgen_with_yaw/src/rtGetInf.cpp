@@ -7,9 +7,9 @@
  *
  * Code generation for model "trajGen_with_yaw".
  *
- * Model version              : 1.27
+ * Model version              : 1.28
  * Simulink Coder version : 24.2 (R2024b) 21-Jun-2024
- * C++ source code generated on : Sun Nov 23 23:33:17 2025
+ * C++ source code generated on : Mon Nov 24 00:05:15 2025
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping

@@ -15,7 +15,7 @@ SimulinkSubscriber<nav_msgs::Odometry, SL_Bus_trajGen_with_yaw_nav_msgs_Odometry
 // For Block trajGen_with_yaw/Publish
 SimulinkPublisher<geometry_msgs::Twist, SL_Bus_trajGen_with_yaw_geometry_msgs_Twist> Pub_trajGen_with_yaw_319;
 
-// For Block trajGen_with_yaw/Get Parameter
+// For Block trajGen_with_yaw/Get Parameter test
 SimulinkParameterGetter<real64_T, double> ParamGet_trajGen_with_yaw_317;
 
 void slros_node_init(int argc, char** argv)

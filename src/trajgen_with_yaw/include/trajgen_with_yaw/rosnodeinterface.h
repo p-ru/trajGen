@@ -3,9 +3,9 @@
 //
 // Code generated for Simulink model 'trajGen_with_yaw'.
 //
-// Model version                  : 1.27
+// Model version                  : 1.28
 // Simulink Coder version         : 24.2 (R2024b) 21-Jun-2024
-// C/C++ source code generated on : Sun Nov 23 23:33:25 2025
+// C/C++ source code generated on : Mon Nov 24 00:05:20 2025
 //
 
 #ifndef _ROS_MATLAB_NODEINTERFACE_

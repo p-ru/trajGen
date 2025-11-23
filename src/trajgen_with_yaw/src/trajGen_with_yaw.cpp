@@ -7,9 +7,9 @@
  *
  * Code generation for model "trajGen_with_yaw".
  *
- * Model version              : 1.27
+ * Model version              : 1.28
  * Simulink Coder version : 24.2 (R2024b) 21-Jun-2024
- * C++ source code generated on : Sun Nov 23 23:33:17 2025
+ * C++ source code generated on : Mon Nov 24 00:05:15 2025
  *
  * Target selection: ert.tlc
  * Note: GRT includes extra infrastructure and instrumentation for prototyping
@@ -2396,7 +2396,7 @@ void trajGen_with_yaw_step(void)
   /* End of Outputs for SubSystem: '<S7>/Enabled Subsystem' */
   /* End of Outputs for SubSystem: '<Root>/position reading' */
 
-  /* MATLABSystem: '<Root>/Get Parameter' */
+  /* MATLABSystem: '<Root>/Get Parameter test' */
   ParamGet_trajGen_with_yaw_317.get_parameter(&trajGen_with_yaw_B.delT);
 
   /* Outputs for Enabled SubSystem: '<Root>/Subsystem' incorporates:
@@ -2542,7 +2542,7 @@ void trajGen_with_yaw_step(void)
     /* End of MATLAB Function: '<S5>/MATLAB Function4' */
 
     /* MATLAB Function: '<S5>/MATLAB Function' incorporates:
-     *  MATLABSystem: '<Root>/Get Parameter'
+     *  MATLABSystem: '<Root>/Get Parameter test'
      * */
     for (trajGen_with_yaw_B.i = 0; trajGen_with_yaw_B.i < 2;
          trajGen_with_yaw_B.i++) {
@@ -3022,7 +3022,7 @@ void trajGen_with_yaw_initialize(void)
     /* End of Start for MATLABSystem: '<S7>/SourceBlock' */
     /* End of Start for SubSystem: '<Root>/position reading' */
 
-    /* Start for MATLABSystem: '<Root>/Get Parameter' */
+    /* Start for MATLABSystem: '<Root>/Get Parameter test' */
     trajGen_with_yaw_DW.obj_o.matlabCodegenIsDeleted = false;
     trajGen_with_yaw_DW.objisempty_f = true;
     trajGen_with_yaw_DW.obj_o.isInitialized = 1;
@@ -3035,7 +3035,7 @@ void trajGen_with_yaw_initialize(void)
     ParamGet_trajGen_with_yaw_317.set_initial_value(0.0);
     trajGen_with_yaw_DW.obj_o.isSetupComplete = true;
 
-    /* End of Start for MATLABSystem: '<Root>/Get Parameter' */
+    /* End of Start for MATLABSystem: '<Root>/Get Parameter test' */
 
     /* Start for Enabled SubSystem: '<Root>/Subsystem' */
     trajGen_with_yaw_DW.Subsystem_MODE = false;
@@ -3163,12 +3163,12 @@ void trajGen_with_yaw_terminate(void)
   /* End of Terminate for MATLABSystem: '<S7>/SourceBlock' */
   /* End of Terminate for SubSystem: '<Root>/position reading' */
 
-  /* Terminate for MATLABSystem: '<Root>/Get Parameter' */
+  /* Terminate for MATLABSystem: '<Root>/Get Parameter test' */
   if (!trajGen_with_yaw_DW.obj_o.matlabCodegenIsDeleted) {
     trajGen_with_yaw_DW.obj_o.matlabCodegenIsDeleted = true;
   }
 
-  /* End of Terminate for MATLABSystem: '<Root>/Get Parameter' */
+  /* End of Terminate for MATLABSystem: '<Root>/Get Parameter test' */
 
   /* Terminate for Atomic SubSystem: '<Root>/Publish' */
   /* Terminate for MATLABSystem: '<S2>/SinkBlock' */
